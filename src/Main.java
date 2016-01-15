@@ -13,7 +13,7 @@ public class Main {
 		player.sendName();
 
 		while (firstSetup) {
-			out.println(player);
+			//out.println(player);
 			player.readConfig();
 			out.close();
 			firstSetup = false;
