@@ -26,4 +26,13 @@ public class Move {
 		return this.isPop;
 	}
 
+	public String toString() {
+		int temp = 0;
+		if (this.isDrop) {
+			temp = 1;
+		} else if (this.isPop) {
+			temp = 0;
+		}
+		return this.colNum +" "+ temp;
+	}
 }
