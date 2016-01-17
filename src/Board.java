@@ -404,4 +404,11 @@ public class Board {
 //       b.test3();
  //        b.test5();
 	 }
+
+	 /**
+	  * Returns the board (multi-dim array).
+	  */
+	public int[][] getBoard() {
+		return this.board;
+	}
 }
