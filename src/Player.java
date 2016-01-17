@@ -13,8 +13,8 @@ public class Player {
 	private Board board; //initial board
 	BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	MinMaxAlgorithm algo = null;
-	
-	
+
+
 	public Player(String name) {
 		this.name = name;
 		this.board = null;
@@ -25,7 +25,6 @@ public class Player {
 	}
 
 	void readInput() throws IOException {
-		int count = 0;
 
 		PrintWriter read = new PrintWriter("boobs.txt");
 
@@ -41,25 +40,27 @@ public class Player {
 		if(ls.size()==2){
 			//System.out.println(ls.get(0)+" "+ls.get(1));
 			Move move = new Move(Integer.parseInt(ls.get(0)),Integer.parseInt(ls.get(1)));
-			
+
 			this.algo.readMove(move);
-			
 			this.algo.getNextMove();
 			this.algo.writeMove();
 		}
 		else if(ls.size()==1){
 			System.out.println("game over!!!");
+			System.exit(0);
+
 			//read.println("Hey");
 			//read.close();
 
-			for(int i = 0; i < this.boardWidth;i++){
-				for(int j = 0; j < this.boardHeight;i++){
-					read.print(this.board.board[i][j]);
-					read.close();;
-				}
-			}
-			
-			System.exit(0);
+			//			for(int i = 0; i < this.boardHeight;i++){
+			//				for(int j = 0; j < this.boardWidth;j++){
+			//					read.print(this.board.board[i][j]);
+			//					read.flush();
+			//				}
+			//				read.println("");
+			//			}
+			//			read.close();
+
 
 		}
 		else if(ls.size()==5){
@@ -82,7 +83,7 @@ public class Player {
 			if(this.isPlayer == this.whoGoesFirst){
 				this.algo.getNextMove();
 				this.algo.writeMove();
-				
+
 			}
 
 
