@@ -8,15 +8,16 @@ public class Main {
 		//create a player
 		Player player = new Player("SwagMaster69");
 		boolean firstSetup = true;
-
+		int counter = 0;
 
 		player.sendName();
 
 		while (firstSetup) {
-			//out.println(player);
 			player.readConfig();
-			out.close();
-			firstSetup = false;
+			
+			//out.println(player);
+			//out.close();
+			//firstSetup = false;
 		}
 
 	}
