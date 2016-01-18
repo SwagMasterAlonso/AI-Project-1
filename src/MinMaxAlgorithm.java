@@ -9,12 +9,14 @@ public class MinMaxAlgorithm {
 	Move opponentMove;
 	Move friendlyMove;
 	Debugger debugger;
+	Heuristic eval;
 
 
 	public MinMaxAlgorithm(Board state, int playerNum, int opponent) {
 		this.playerNum = playerNum;
 		this.opponentNum = opponent;
 		this.currentState = state;
+		this.eval = new Heuristic();
 		this.debugger = new Debugger();
 	}
 
@@ -52,87 +54,4 @@ public class MinMaxAlgorithm {
 
 	}
 
-	int countNConnectionsH(int n, int player) {
-		int max1;
-		int max2;
-		int counter = 0;
-		int other;
-
-		if (player==this.playerNum) {
-			other = this.opponentNum;
-		} else {
-			other = this.playerNum;
-		}
-		//check each row, horizontally
-		for(int i=0;i<this.currentState.height;i++){
-			max1=0;
-			max2=0;
-			for(int j=0;j<this.currentState.width;j++){
-				if(this.currentState.board[i][j]==player){
-					max1++;
-					max2=0;
-
-				}
-				else if(this.currentState.board[i][j]==other){
-					if(max1==n) {
-						counter++;
-					}
-					max1=0;
-					max2++;
-				} else {
-					if(max1==n) {
-						counter++;
-					}
-					max1=0;
-					max2=0;
-				}
-			}
-			if(max1==n) {
-				counter++;
-			}
-		}
-		return counter;
-	}
-
-	int countNConnectionsV(int n, int player) {
-		int max1;
-		int max2;
-		int counter = 0;
-		int other;
-
-		if (player==this.playerNum) {
-			other = this.opponentNum;
-		} else {
-			other = this.playerNum;
-		}
-		//check each row, horizontally
-		for(int j=0;j<this.currentState.width;j++){
-			max1=0;
-			max2=0;
-			for(int i=0;i<this.currentState.height;i++){
-				if(this.currentState.board[i][j]==player){
-					max1++;
-					max2=0;
-				} else if (this.currentState.board[i][j]==other){
-					if(max1==n) {
-						counter++;
-					}
-					max1=0;
-					max2++;
-				} else {
-					if(max1==n) {
-						counter++;
-					}
-					max1=0;
-					max2=0;
-				}
-
-				if(max1==n) {
-					counter++;
-				}
-			}
-		}
-		return counter;
-
-	}
 }
