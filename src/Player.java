@@ -46,7 +46,7 @@ public class Player {
 			this.algo.writeMove();
 		}
 		else if(ls.size()==1){
-			this.algo.closeDebuggerStream();
+
 			System.out.println("game over!!!");
 			System.exit(0);
 

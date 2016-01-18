@@ -1,7 +1,3 @@
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,25 +8,14 @@ public class MinMaxAlgorithm {
 	Board currentState;
 	Move opponentMove;
 	Move friendlyMove;
+	Debugger debugger;
 
-	File file;
-	FileOutputStream fos;
-	PrintStream ps;
 
 	public MinMaxAlgorithm(Board state, int playerNum, int opponent) {
 		this.playerNum = playerNum;
 		this.opponentNum = opponent;
 		this.currentState = state;
-		this.file = new File("err.txt");
-
-		try {
-			this.fos = new FileOutputStream(file);
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-
-		this.ps = new PrintStream(fos);
-		System.setErr(ps);
+		this.debugger = new Debugger();
 	}
 
 	void getNextMove () {
@@ -38,21 +23,21 @@ public class MinMaxAlgorithm {
 		//code for finding the next move
 		//This is a random number generator that creates random moves
 		int randomNum = rand.nextInt((6-1)+1) + 1;
-		System.err.println("The column is :"+randomNum);
+		this.debugger.writeToDebug("col is: "+randomNum);
 		this.friendlyMove = new Move(randomNum, 1);
 
 	}
 
 	void readMove(Move opponent){
 		this.opponentMove = opponent;
-		System.err.println("Reading opponent's move.");
+
 		this.currentState.dropADiscFromTop(opponent.getCol(), this.opponentNum);
 
 	}
 
 	void writeMove() {
 		this.currentState.dropADiscFromTop(this.friendlyMove.getCol(), this.playerNum);
-		System.err.println("Writing our move.");
+
 		System.out.println(this.friendlyMove.toString());
 	}
 
@@ -85,12 +70,4 @@ public class MinMaxAlgorithm {
 		}
 	}
 
-	void closeDebuggerStream() {
-		try {
-			this.fos.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
