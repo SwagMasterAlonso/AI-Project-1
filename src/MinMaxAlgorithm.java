@@ -56,17 +56,24 @@ public class MinMaxAlgorithm {
 		int max1;
 		int max2;
 		int counter = 0;
+		int other;
+
+		if (player==this.playerNum) {
+			other = this.opponentNum;
+		} else {
+			other = this.playerNum;
+		}
 		//check each row, horizontally
 		for(int i=0;i<this.currentState.height;i++){
 			max1=0;
 			max2=0;
 			for(int j=0;j<this.currentState.width;j++){
-				if(this.currentState.board[i][j]==this.playerNum){
+				if(this.currentState.board[i][j]==player){
 					max1++;
 					max2=0;
 
 				}
-				else if(this.currentState.board[i][j]==this.opponentNum){
+				else if(this.currentState.board[i][j]==other){
 					if(max1==n) {
 						counter++;
 					}
@@ -80,6 +87,9 @@ public class MinMaxAlgorithm {
 					max2=0;
 				}
 			}
+			if(max1==n) {
+				counter++;
+			}
 		}
 		return counter;
 	}
@@ -88,16 +98,22 @@ public class MinMaxAlgorithm {
 		int max1;
 		int max2;
 		int counter = 0;
+		int other;
+
+		if (player==this.playerNum) {
+			other = this.opponentNum;
+		} else {
+			other = this.playerNum;
+		}
 		//check each row, horizontally
 		for(int j=0;j<this.currentState.width;j++){
 			max1=0;
 			max2=0;
 			for(int i=0;i<this.currentState.height;i++){
-				if(this.currentState.board[i][j]==this.playerNum){
+				if(this.currentState.board[i][j]==player){
 					max1++;
 					max2=0;
-				}
-				else if(this.currentState.board[i][j]==this.opponentNum){
+				} else if (this.currentState.board[i][j]==other){
 					if(max1==n) {
 						counter++;
 					}
@@ -109,6 +125,10 @@ public class MinMaxAlgorithm {
 					}
 					max1=0;
 					max2=0;
+				}
+
+				if(max1==n) {
+					counter++;
 				}
 			}
 		}
