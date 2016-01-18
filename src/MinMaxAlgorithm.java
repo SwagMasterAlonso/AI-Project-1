@@ -49,25 +49,70 @@ public class MinMaxAlgorithm {
 		ArrayList<Integer> closedList = new ArrayList<Integer>();
 		int[][] currentState = this.currentState.getBoard();
 
-		for (i = 0; i < this.currentState.height; i++) {
-			for (j = 0; j < this.currentState.width; j++) {
-				if (currentState[i][j] != 9 && !isRowFound) {
-					rowStop = i;
-					isRowFound = true;
-					break;
-				}
-			}
-		}
 
-
-		//second loop to place valid moves on lists.
-		for (i = this.currentState.height-1; i >= rowStop; i--) {
-			for (j = 0; j < this.currentState.width; j++) {
-				if (currentState[i][j] == 9) {
-					openList.add(j);
-				}
-			}
-		}
 	}
 
+	int countNConnectionsH(int n, int player) {
+		int max1;
+		int max2;
+		int counter = 0;
+		//check each row, horizontally
+		for(int i=0;i<this.currentState.height;i++){
+			max1=0;
+			max2=0;
+			for(int j=0;j<this.currentState.width;j++){
+				if(this.currentState.board[i][j]==this.playerNum){
+					max1++;
+					max2=0;
+
+				}
+				else if(this.currentState.board[i][j]==this.opponentNum){
+					if(max1==n) {
+						counter++;
+					}
+					max1=0;
+					max2++;
+				} else {
+					if(max1==n) {
+						counter++;
+					}
+					max1=0;
+					max2=0;
+				}
+			}
+		}
+		return counter;
+	}
+
+	int countNConnectionsV(int n, int player) {
+		int max1;
+		int max2;
+		int counter = 0;
+		//check each row, horizontally
+		for(int j=0;j<this.currentState.width;j++){
+			max1=0;
+			max2=0;
+			for(int i=0;i<this.currentState.height;i++){
+				if(this.currentState.board[i][j]==this.playerNum){
+					max1++;
+					max2=0;
+				}
+				else if(this.currentState.board[i][j]==this.opponentNum){
+					if(max1==n) {
+						counter++;
+					}
+					max1=0;
+					max2++;
+				} else {
+					if(max1==n) {
+						counter++;
+					}
+					max1=0;
+					max2=0;
+				}
+			}
+		}
+		return counter;
+
+	}
 }
