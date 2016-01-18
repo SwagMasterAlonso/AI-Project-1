@@ -26,7 +26,7 @@ public class Player {
 
 	void readInput() throws IOException {
 
-		PrintWriter read = new PrintWriter("boobs.txt");
+		//PrintWriter read = new PrintWriter("boobs.txt");
 
 
 
@@ -46,6 +46,7 @@ public class Player {
 			this.algo.writeMove();
 		}
 		else if(ls.size()==1){
+			this.algo.closeDebuggerStream();
 			System.out.println("game over!!!");
 			System.exit(0);
 
@@ -99,7 +100,7 @@ public class Player {
 		else{
 			System.out.println("not what I want");
 		}
-	}		
+	}
 
 
 	public String toString() {
