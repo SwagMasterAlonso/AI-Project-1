@@ -73,10 +73,9 @@ public class Heuristic {
 					max1=0;
 					max2=0;
 				}
-
-				if(max1==n) {
-					counter++;
-				}
+			}
+			if(max1==n) {
+				counter++;
 			}
 		}
 		return counter;

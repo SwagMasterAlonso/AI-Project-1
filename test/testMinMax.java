@@ -36,7 +36,7 @@ public class testMinMax {
 		algo.currentState.dropADiscFromTop(3,1);
 		algo.eval.setState(algo.currentState);
 		assertEquals(algo.eval.countNConnectionsV(4, 1, 2), 1);
-//		assertEquals(algo.eval.countNConnectionsV(1, 1, 2), 3);
-		assertEquals(algo.eval.countNConnectionsV(2, 1, 2), 1);
+		assertEquals(algo.eval.countNConnectionsV(1, 1, 2), 3);
+		assertEquals(algo.eval.countNConnectionsV(2, 1, 2), 0);
 	}
 }
