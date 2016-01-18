@@ -1,14 +1,17 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
+ 
 
-public class Main {
+class Main {
 
 	public static void main(String[] args) throws IOException {
 		//PrintWriter out = new PrintWriter("config.txt");
 		//create a player
-		Player player = new Player("SwagMaster69");
+		Random rand = new Random();
+
+		Player player = new Player("SwagMaster"+rand.nextInt((1000-1)+1));
 		boolean firstSetup = true;
-		int counter = 0;
 
 		player.sendName();
 
