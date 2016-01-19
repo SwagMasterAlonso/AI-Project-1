@@ -49,21 +49,44 @@ public class MinMaxAlgorithm {
 	 * Then call a helper function to find the nth valid move given the first valid move
 	 * Then
 	 */
-	void planNextMoves(int depth, Board givenState) {
-		int i;
+	int minimax(int depth, boolean isMax) {
+		int i, bestScore;
 		Board current = this.currentState;
 		Move newMove;
 
-		if (currDepth == depth) {
-			return;
+
+		if (currDepth == 0) {
+
+			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
+		
+		} else if(isMax) {
+			bestScore = -10000;
+
+			//iterate through all nodes here
+			int tempVal = minimax(child,depth -1,false);
+
+			bestScore= Math.max(bestScore,tempVal);
+
+
+			//stop iterating through all nodes here
+			return bestScore;
+		} else {
+			bestScore = 10000;
+
+			//iterate through all nodes here
+			int tempVal = minimax(child,depth -1,true);
+
+			bestScore= Math.min(bestScore,tempVal);
+
+
+			//stop iterating through all nodes here
+			return bestScore;
 		}
-		ArrayList<Integer> validMoves = this.findMoves(current);
-		for (i = 0; i < validMoves.size(); i++) {
-			current = this.currentState;
-			newMove = new Move(validMoves.get(i), this.playerNum);
-			this.modifyState(current, newMove, this.playerNum);
-			this.planNextMoves(depth, current);
-		}
+
+
+
+
+
 		currDepth++;
 
 	}
