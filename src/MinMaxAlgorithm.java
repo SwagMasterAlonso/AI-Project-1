@@ -10,6 +10,7 @@ public class MinMaxAlgorithm {
 	Move friendlyMove;
 	Debugger debugger;
 	Heuristic eval;
+	static int currDepth;
 
 
 	public MinMaxAlgorithm(Board state, int playerNum, int opponent) {
@@ -43,15 +44,51 @@ public class MinMaxAlgorithm {
 		System.out.println(this.friendlyMove.toString());
 	}
 
-	void searchValidMoves() {
-		int i,j;
-		int rowStop = 0;
-		boolean isRowFound = false;
+	/**
+	 * This function should first search all the valid moves of the board
+	 * Then call a helper function to find the nth valid move given the first valid move
+	 * Then
+	 */
+	void planNextMoves(int depth, Board givenState) {
+		int i;
+		Board current = this.currentState;
+		Move newMove;
+
+		if (currDepth == depth) {
+			return;
+		}
+		ArrayList<Integer> validMoves = this.findMoves(current);
+		for (i = 0; i < validMoves.size(); i++) {
+			current = this.currentState;
+			newMove = new Move(validMoves.get(i), this.playerNum);
+			this.modifyState(current, newMove, this.playerNum);
+			this.planNextMoves(depth, current);
+		}
+		currDepth++;
+
+	}
+
+	ArrayList<Integer> findMoves(Board state) {
+		int i;
 		ArrayList<Integer> openList = new ArrayList<Integer>();
-		ArrayList<Integer> closedList = new ArrayList<Integer>();
-		int[][] currentState = this.currentState.getBoard();
 
-
+		for (i = 0; i < 7; i++) {
+			if (this.currentState.canDropADiscFromTop(i, this.playerNum)) {
+				openList.add(i);
+			}
+		}
+		return openList;
+	}
+	/**
+	 * Returns a board with the move.
+	 * @param current
+	 * @param move
+	 * @param player
+	 *
+	 */
+	Board modifyState(Board current, Move move, int player) {
+		current.dropADiscFromTop(move.getCol(), player);
+		return current;
 	}
 
 }
