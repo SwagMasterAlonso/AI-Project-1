@@ -39,4 +39,11 @@ public class testMinMax {
 		assertEquals(algo.eval.countNConnectionsV(1, 1, 2), 3);
 		assertEquals(algo.eval.countNConnectionsV(2, 1, 2), 0);
 	}
+
+	@Test
+	public void testMoveEnumeration() {
+		Board newState = new Board(6,7,4);
+		MinMaxAlgorithm algo = new MinMaxAlgorithm(newState, 1,2);
+
+	}
 }
