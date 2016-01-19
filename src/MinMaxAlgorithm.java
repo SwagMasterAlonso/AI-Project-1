@@ -58,7 +58,7 @@ public class MinMaxAlgorithm {
 		if (currDepth == 0) {
 
 			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
-		
+
 		} else if(isMax) {
 			bestScore = -10000;
 
@@ -82,11 +82,28 @@ public class MinMaxAlgorithm {
 			//stop iterating through all nodes here
 			return bestScore;
 		}
+	}
 
 
 
 
 
+
+	void planNextMoves(int depth, Board givenState) {
+		int i;
+		Board current = this.currentState;
+		Move newMove;
+
+		if (currDepth == depth) {
+			return;
+		}
+		ArrayList<Integer> validMoves = this.findMoves(current);
+		for (i = 0; i < validMoves.size(); i++) {
+			current = this.currentState;
+			newMove = new Move(validMoves.get(i), this.playerNum);
+			this.modifyState(current, newMove, this.playerNum);
+			this.planNextMoves(depth, current);
+		}
 		currDepth++;
 
 	}
