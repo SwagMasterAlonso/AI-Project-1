@@ -19,7 +19,7 @@ public class Heuristic {
 		vertConn = this.countNConnectionsV(n-1, player, other) + this.countNConnectionsV(n-2, player, other);
 		horizConn = this.countNConnectionsH(n-1, player, other) + this.countNConnectionsH(n-2, player, other);
 
-		finalValue = 20*nMinus1 + 10*nMinus2 + oppNMinus1 + oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN +
+		finalValue = 20*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN +
 				5*emptySpaces + 5*vertConn + 16*horizConn + 18*diagConn;
 
 		return finalValue;
