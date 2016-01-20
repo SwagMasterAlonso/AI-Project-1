@@ -45,23 +45,25 @@ public class testMinMax {
 		Board newState = new Board(6,7,4);
 		MinMaxAlgorithm algo = new MinMaxAlgorithm(newState, 1,2);
 		Move thisMove = new Move(1,1);
-		GameNode node = algo.createGameTree(1, algo.currentState, thisMove);
+		GameNode node; //= algo.createGameTree(1, algo.currentState, thisMove);
 
-		assertEquals(node.getNum(), 1);
+//		assertEquals(node.getNum(), 1);
+//		for (int i = 0; i < 6; i++) {
+//			assertEquals(node.getNextLayer().get(i).getNum(), i);
+//		}
+
 		for (int i = 0; i < 6; i++) {
-			assertEquals(node.getNextLayer().get(i).getNum(), i);
-		}
-
-		for (int i = 0; i < 7; i+=2) {
-			for (int j = 0; j < 6; j++) {
+			for (int j = 0; j < 7; j+=2) {
 				newState.dropADiscFromTop(j,1);
 			}
 		}
 
-		node = algo.createGameTree(1, newState, thisMove);
-		for (int i = 0; i < 6; i++) {
-			assertEquals(node.getNextLayer().get(i).getNum(), i);
-		}
+		node = algo.createGameTree(3, newState, thisMove);
+
+		assertEquals(node.getNextLayer().get(0).getNum(), 1);
+		assertEquals(node.getNextLayer().get(1).getNum(), 3);
+		assertEquals(node.getNextLayer().get(2).getNum(), 5);
+
 
 	}
 }

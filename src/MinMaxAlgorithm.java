@@ -107,8 +107,12 @@ public class MinMaxAlgorithm {
 			return null;
 		}
 		ArrayList<Integer> validMoves = this.findMoves(current);
+		if (validMoves.isEmpty()) {
+			return null;
+		}
 		for (i = 0; i < validMoves.size(); i++) {
 			newMove = new Move(validMoves.get(i), this.playerNum);
+			Board boardCopy = current;
 			newLeaf = new GameNode(validMoves.get(i), this.modifyState(current, newMove, this.playerNum), this.createLayers(depth - 1, current));
 			list.add(newLeaf);
 		}
@@ -120,7 +124,7 @@ public class MinMaxAlgorithm {
 		ArrayList<Integer> openList = new ArrayList<Integer>();
 
 		for (i = 0; i < 7; i++) {
-			if (this.currentState.canDropADiscFromTop(i, this.playerNum)) {
+			if (state.canDropADiscFromTop(i, this.playerNum)) {
 				openList.add(i);
 			}
 		}
