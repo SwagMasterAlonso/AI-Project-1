@@ -50,7 +50,7 @@ public class MinMaxAlgorithm {
 	 * Then
 	 */
 	int minimax(int depth, boolean isMax) {
-		int i, bestScore;
+		int i, bestScore = 0;
 		Board current = this.currentState;
 		Move newMove;
 
@@ -63,9 +63,9 @@ public class MinMaxAlgorithm {
 			bestScore = -10000;
 
 			//iterate through all nodes here
-			int tempVal = minimax(child,depth -1,false);
-
-			bestScore= Math.max(bestScore,tempVal);
+//			int tempVal = minimax(child,depth -1,false);
+//
+//			bestScore= Math.max(bestScore,tempVal);
 
 
 			//stop iterating through all nodes here
@@ -74,9 +74,9 @@ public class MinMaxAlgorithm {
 			bestScore = 10000;
 
 			//iterate through all nodes here
-			int tempVal = minimax(child,depth -1,true);
-
-			bestScore= Math.min(bestScore,tempVal);
+//			int tempVal = minimax(child,depth -1,true);
+//
+//			bestScore= Math.min(bestScore,tempVal);
 
 
 			//stop iterating through all nodes here
@@ -89,23 +89,30 @@ public class MinMaxAlgorithm {
 
 
 
-	void planNextMoves(int depth, Board givenState) {
-		int i;
-		Board current = this.currentState;
-		Move newMove;
+	GameNode createGameTree(int depth, Board givenState, Move move) {
+		Move newMove = move;
+		ArrayList<GameNode> nextMoves = createLayers(depth, givenState);
 
-		if (currDepth == depth) {
-			return;
+		GameNode tree = new GameNode(newMove.getCol(), givenState, nextMoves);
+
+		return tree;
+	}
+
+	private ArrayList<GameNode> createLayers(int depth, Board current) {
+		Move newMove;
+		int i;
+		GameNode newLeaf;
+		ArrayList<GameNode> list = new ArrayList<GameNode>();
+		if (depth == 0) {
+			return null;
 		}
 		ArrayList<Integer> validMoves = this.findMoves(current);
 		for (i = 0; i < validMoves.size(); i++) {
-			current = this.currentState;
 			newMove = new Move(validMoves.get(i), this.playerNum);
-			this.modifyState(current, newMove, this.playerNum);
-			this.planNextMoves(depth, current);
+			newLeaf = new GameNode(validMoves.get(i), this.modifyState(current, newMove, this.playerNum), this.createLayers(depth - 1, current));
+			list.add(newLeaf);
 		}
-		currDepth++;
-
+		return list;
 	}
 
 	ArrayList<Integer> findMoves(Board state) {
