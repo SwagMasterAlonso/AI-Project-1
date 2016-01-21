@@ -75,7 +75,7 @@ public class MinMaxAlgorithm {
 				//
 				bestScore= Math.max(bestScore,tempValMax);
 				System.out.println("The best score is: "+bestScore);
-				
+
 				//alpha beta pruning
 				//alpha = Math.max(alpha,bestScore);
 				//if beta <= alpha{
@@ -94,7 +94,7 @@ public class MinMaxAlgorithm {
 				int tempValMin = this.minimax(gameNode.getNextLayer().get(i),depth -1,true,0,0);
 
 				bestScore= Math.min(bestScore,tempValMin);
-				
+
 				System.out.println("The best score is: "+bestScore);
 
 			}
@@ -164,8 +164,11 @@ public class MinMaxAlgorithm {
 	 *
 	 */
 	Board modifyState(Board current, Move move, int player) {
-		current.dropADiscFromTop(move.getCol(), player);
-		return current;
+		Board caliState = new Board(current.height,current.width, current.N);
+		caliState.board = current.getBoard();
+		caliState.numOfDiscsInColumn = current.numOfDiscsInColumn;
+		caliState.dropADiscFromTop(move.getCol(), player);
+		return caliState;
 	}
 
 }

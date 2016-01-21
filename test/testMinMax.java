@@ -89,14 +89,14 @@ public class testMinMax {
 		Move thisMove = new Move(1,1);
 		GameNode node; //= algo.createGameTree(1, algo.currentState, thisMove);
 
-		
+
 //		for (int i = 0; i < 6; i++) {
 //			for (int j = 0; j < 7; j+=2) {
 //				newState.dropADiscFromTop(j,1);
 //			}
 //		}
-	
-		
+
+
 		newState.dropADiscFromTop(0, 1);
 		newState.dropADiscFromTop(1, 1);
 	//	newState.dropADiscFromTop(2,2);
@@ -111,20 +111,20 @@ public class testMinMax {
 
 		node = algo.createGameTree(1, newState, thisMove);
 
-		
+
 		for(int i = 0; i < 6;i++){
 			for(int j = 0; j < 7; j++){
 				System.out.print(newState.board[i][j]+" ");
 			}
 			System.out.println("");
 		}
-		
-		
+
+
 		//assertEquals(algo.eval.countNConnectionsH(6, algo.playerNum, algo.opponentNum),1);
 		assertEquals(algo.eval.countNConnectionsH(2, algo.playerNum, algo.opponentNum),1);
 
-		
-		//assertEquals(algo.minimax(node, 2, true, 0, 0),0);
-		
+
+		assertEquals(algo.minimax(node, 2, true, 0, 0),0);
+
 	}
 }
