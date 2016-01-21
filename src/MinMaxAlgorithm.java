@@ -130,7 +130,7 @@ public class MinMaxAlgorithm {
 		GameNode newLeaf;
 		ArrayList<GameNode> list = new ArrayList<GameNode>();
 		Board savedState = new Board(current.height,current.width, current.N), newState;
-		savedState.board = current.getBoard();
+		savedState.board = this.copyBoard(current.getBoard());
 		savedState.numOfDiscsInColumn = current.numOfDiscsInColumn;
 		if (depth == 0) {
 			return null;
@@ -165,10 +165,23 @@ public class MinMaxAlgorithm {
 	 */
 	Board modifyState(Board current, Move move, int player) {
 		Board caliState = new Board(current.height,current.width, current.N);
-		caliState.board = current.getBoard();
+		int[][] tempBoard = this.copyBoard(current.getBoard());
+		caliState.board = tempBoard;
 		caliState.numOfDiscsInColumn = current.numOfDiscsInColumn;
 		caliState.dropADiscFromTop(move.getCol(), player);
 		return caliState;
+	}
+
+	int[][] copyBoard(int[][] board) {
+		int[][] newBoard = new int[this.currentState.height][this.currentState.width];
+
+		for (int i = 0; i < this.currentState.height; i++) {
+			for (int j = 0; j < this.currentState.width; j++) {
+				newBoard[i][j] = board[i][j];
+			}
+		}
+
+		return newBoard;
 	}
 
 }
