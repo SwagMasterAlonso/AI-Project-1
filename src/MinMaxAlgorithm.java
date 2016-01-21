@@ -58,9 +58,10 @@ public class MinMaxAlgorithm {
 		//friendly move should be up to date
 		//GameNode tree = this.createGameTree(depth, this.currentState,this.friendlyMove);
 
-		if (depth == 0 || gameNode.getNextLayer().equals(null) ) {
+		if (depth == 0 || gameNode.getNextLayer() ==null ) {
 
 			this.eval.setState(gameNode.getState());
+			System.out.println("Eval is: " +  eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum));
 			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
 
 		} else if(isMax) {
@@ -73,7 +74,8 @@ public class MinMaxAlgorithm {
 				int tempValMax = this.minimax(gameNode.getNextLayer().get(i),depth -1,false,0,0);
 				//
 				bestScore= Math.max(bestScore,tempValMax);
-
+				System.out.println("The best score is: "+bestScore);
+				
 				//alpha beta pruning
 				//alpha = Math.max(alpha,bestScore);
 				//if beta <= alpha{
@@ -92,6 +94,9 @@ public class MinMaxAlgorithm {
 				int tempValMin = this.minimax(gameNode.getNextLayer().get(i),depth -1,true,0,0);
 
 				bestScore= Math.min(bestScore,tempValMin);
+				
+				System.out.println("The best score is: "+bestScore);
+
 			}
 
 			return bestScore;
