@@ -113,7 +113,8 @@ public class MinMaxAlgorithm {
 		for (i = 0; i < validMoves.size(); i++) {
 			newMove = new Move(validMoves.get(i), this.playerNum);
 			Board boardCopy = current;
-			newLeaf = new GameNode(validMoves.get(i), this.modifyState(current, newMove, this.playerNum), this.createLayers(depth - 1, current));
+			Board newState = this.modifyState(boardCopy, newMove, this.playerNum);
+			newLeaf = new GameNode(validMoves.get(i), newState, this.createLayers(depth - 1, boardCopy));
 			list.add(newLeaf);
 		}
 		return list;
@@ -138,8 +139,9 @@ public class MinMaxAlgorithm {
 	 *
 	 */
 	Board modifyState(Board current, Move move, int player) {
-		current.dropADiscFromTop(move.getCol(), player);
-		return current;
+		Board state = current;
+		state.dropADiscFromTop(move.getCol(), player);
+		return state;
 	}
 
 }

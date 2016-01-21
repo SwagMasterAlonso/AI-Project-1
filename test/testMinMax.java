@@ -21,6 +21,22 @@ public class testMinMax {
 		algo.eval.setState(algo.currentState);
 		assertEquals(algo.eval.countNConnectionsH(3, 1, 2),1);
 	}
+
+	@Test
+	public void testCountNConnectionsDiag() {
+		Board state = new Board(6,7,4);
+		MinMaxAlgorithm algo = new MinMaxAlgorithm(state, 1,2);
+		algo.eval.setState(algo.currentState);
+		algo.currentState.dropADiscFromTop(0,1);
+		algo.currentState.dropADiscFromTop(1,1);
+		algo.currentState.dropADiscFromTop(2,1);
+		algo.currentState.dropADiscFromTop(1,1);
+		algo.currentState.dropADiscFromTop(2,1);
+		algo.currentState.dropADiscFromTop(2,1);
+		algo.eval.setState(algo.currentState);
+		assertEquals(algo.eval.countNConnectionsDiag2(3, 1, 2),1);
+	}
+
 	@Test
 	public void testCountNConnectionsVert() {
 		Board newState = new Board(6,7,4);
