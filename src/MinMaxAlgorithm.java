@@ -126,6 +126,7 @@ public class MinMaxAlgorithm {
 		ArrayList<GameNode> list = new ArrayList<GameNode>();
 		Board savedState = new Board(current.height,current.width, current.N), newState;
 		savedState.board = current.getBoard();
+		savedState.numOfDiscsInColumn = current.numOfDiscsInColumn;
 		if (depth == 0) {
 			return null;
 		}
