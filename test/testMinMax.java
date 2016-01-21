@@ -121,7 +121,53 @@ public class testMinMax {
 
 
 		//assertEquals(algo.eval.countNConnectionsH(6, algo.playerNum, algo.opponentNum),1);
-		assertEquals(algo.eval.countNConnectionsH(2, algo.playerNum, algo.opponentNum),1);
+		//assertEquals(algo.eval.countNConnectionsH(2, algo.playerNum, algo.opponentNum),1);
+
+
+		assertEquals(algo.minimax(node, 2, true, 0, 0),0);
+
+	}
+
+	@Test
+	public void testMinimax2(){
+		Board newState = new Board(6,7,4);
+		MinMaxAlgorithm algo = new MinMaxAlgorithm(newState, 1,2);
+		Move thisMove = new Move(1,1);
+		GameNode node;
+
+
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j+=2) {
+				newState.dropADiscFromTop(j,1);
+			}
+		}
+		newState.dropADiscFromTop(1,1);
+		newState.dropADiscFromTop(3,1);
+		newState.dropADiscFromTop(5,1);
+		newState.dropADiscFromTop(1,1);
+		newState.dropADiscFromTop(3,1);
+		newState.dropADiscFromTop(5,1);
+		newState.dropADiscFromTop(1,1);
+		newState.dropADiscFromTop(3,1);
+		newState.dropADiscFromTop(5,1);
+		newState.dropADiscFromTop(1,1);
+		newState.dropADiscFromTop(3,1);
+		newState.dropADiscFromTop(5,1);
+		algo.eval.setState(newState);
+
+		node = algo.createGameTree(6, newState, thisMove);
+
+
+		for(int i = 0; i < 6;i++){
+			for(int j = 0; j < 7; j++){
+				System.out.print(newState.board[i][j]+" ");
+			}
+			System.out.println("");
+		}
+
+
+		//assertEquals(algo.eval.countNConnectionsH(6, algo.playerNum, algo.opponentNum),1);
+		//assertEquals(algo.eval.countNConnectionsH(2, algo.playerNum, algo.opponentNum),1);
 
 
 		assertEquals(algo.minimax(node, 2, true, 0, 0),0);

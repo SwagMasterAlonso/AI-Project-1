@@ -71,11 +71,11 @@ public class Board {
 
 	 public boolean canDropADiscFromTop(int col, int currentPlayer){
 		 if(col<0 || col>=this.width) {
-			 System.out.println("Illegal column!");
+			 //System.out.println("Illegal column!");
 			 return false;
 			 }
 		 else if(this.numOfDiscsInColumn[col]==this.height){
-			 System.out.println("Column is already full. Cannot drop more disc in it.");
+			 //System.out.println("Column is already full. Cannot drop more disc in it.");
 			 return false;
 		 }
 		 else
@@ -411,6 +411,6 @@ public class Board {
 	public int[][] getBoard() {
 		return this.board;
 	}
-	
-	
+
+
 }
