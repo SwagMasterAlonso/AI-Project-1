@@ -74,7 +74,7 @@ public class testMinMax {
 			}
 		}
 
-		node = algo.createGameTree(3, newState, thisMove);
+		node = algo.createGameTree(5, newState, thisMove);
 
 		assertEquals(node.getNextLayer().get(0).getNum(), 1);
 		assertEquals(node.getNextLayer().get(1).getNum(), 3);

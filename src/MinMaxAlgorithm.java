@@ -53,7 +53,7 @@ public class MinMaxAlgorithm {
 		int i, bestScore = 0;
 		Board current = this.currentState;
 		Move newMove;
-		
+
 
 
 		if (currDepth == 0) {
@@ -62,7 +62,7 @@ public class MinMaxAlgorithm {
 
 		} else if(isMax) {
 			bestScore = -10000;
-			
+
 			//iterate through all nodes here
 			//for
 //			int tempVal = minimax(child,depth -1,false);
@@ -115,13 +115,16 @@ public class MinMaxAlgorithm {
 		int i;
 		GameNode newLeaf;
 		ArrayList<GameNode> list = new ArrayList<GameNode>();
+		Board savedState = new Board(current.height,current.width, current.N), newState;
+		savedState.board = current.getBoard();
 		if (depth == 0) {
 			return null;
 		}
-		ArrayList<Integer> validMoves = this.findMoves(current);
+		ArrayList<Integer> validMoves = this.findMoves(savedState);
 		for (i = 0; i < validMoves.size(); i++) {
 			newMove = new Move(validMoves.get(i), this.playerNum);
-			newLeaf = new GameNode(validMoves.get(i), this.modifyState(current, newMove, this.playerNum), this.createLayers(depth - 1, current));
+			newState = this.modifyState(savedState, newMove, this.playerNum);
+			newLeaf = new GameNode(validMoves.get(i), savedState, this.createLayers(depth - 1, newState));
 			list.add(newLeaf);
 		}
 		return list;
@@ -132,7 +135,7 @@ public class MinMaxAlgorithm {
 		ArrayList<Integer> openList = new ArrayList<Integer>();
 
 		for (i = 0; i < 7; i++) {
-			if (this.currentState.canDropADiscFromTop(i, this.playerNum)) {
+			if (state.canDropADiscFromTop(i, this.playerNum)) {
 				openList.add(i);
 			}
 		}
