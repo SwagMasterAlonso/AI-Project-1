@@ -42,7 +42,16 @@ public class Player {
 			Move move = new Move(Integer.parseInt(ls.get(0)),Integer.parseInt(ls.get(1)));
 
 			this.algo.readMove(move);
+			
 			this.algo.getNextMove();
+			
+			
+			//create game tree
+			//run eval function on entire tree
+			//run minimax on tree
+			//return the next move
+			
+			
 			this.algo.writeMove();
 		}
 		else if(ls.size()==1){

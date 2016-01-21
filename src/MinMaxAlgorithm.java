@@ -49,43 +49,52 @@ public class MinMaxAlgorithm {
 	 * Then call a helper function to find the nth valid move given the first valid move
 	 * Then
 	 */
-	int minimax(int depth, boolean isMax,int alpha, int beta) {
+
+
+	int minimax(GameNode gameNode,int depth, boolean isMax,int alpha, int beta) {
 		int i, bestScore = 0;
-		Board current = this.currentState;
-		Move newMove;
+		//Move newMove;
 
+		//friendly move should be up to date
+		//GameNode tree = this.createGameTree(depth, this.currentState,this.friendlyMove);
 
+		if (depth == 0 || gameNode.getNextLayer().equals(null) ) {
 
-		if (currDepth == 0) {
-
+			this.eval.setState(gameNode.getState());
 			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
 
 		} else if(isMax) {
 			bestScore = -10000;
 
 			//iterate through all nodes here
-			//for
-//			int tempVal = minimax(child,depth -1,false);
-//
-//			bestScore= Math.max(bestScore,tempVal);
 
-			//alpha beta pruning
-			//alpha = Math.max(alpha,bestScore);
-			//if beta <= alpha{
-			//break
-			//}
-			//end for
-			//stop iterating through all nodes here
+
+			for(i = 0; i <gameNode.getNextLayer().size();i++){
+				int tempValMax = this.minimax(gameNode.getNextLayer().get(i),depth -1,false,0,0);
+				//
+				bestScore= Math.max(bestScore,tempValMax);
+
+				//alpha beta pruning
+				//alpha = Math.max(alpha,bestScore);
+				//if beta <= alpha{
+				//break
+				//}
+				//end for
+				//stop iterating through all nodes here
+			}
 			return bestScore;
 		} else {
 			bestScore = 10000;
 
-			//iterate through all nodes here
-//			int tempVal = minimax(child,depth -1,true);
-//
-//			bestScore= Math.min(bestScore,tempVal);
 
+			for(i = 0; i <gameNode.getNextLayer().size();i++){
 
+				int tempValMin = this.minimax(gameNode.getNextLayer().get(i),depth -1,true,0,0);
+
+				bestScore= Math.min(bestScore,tempValMin);
+			}
+
+			return bestScore;
 			//alpha beta pruning
 			//beta = Math.min(beta,bestScore);
 			//if beta <= alpha{
