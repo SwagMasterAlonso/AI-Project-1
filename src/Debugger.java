@@ -3,11 +3,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
+/**
+ * The purpose of this class is to print all debug statements to a file.
+ * @author jameschow, amartinez
+ *
+ */
 public class Debugger {
-	static File file;
-	static FileOutputStream fos;
-	static PrintStream ps;
+	static File file;/**The file being opened for message output.*/
+	static FileOutputStream fos; /**Needed to print to file.*/
+	static PrintStream ps; /**Needed to switch from console to file.*/
 
+	/**Constructor that creates a singleton object for debugging purposes.*/
 	public Debugger() {
 		Debugger.file = new File("err.txt");
 		try {
@@ -20,10 +26,15 @@ public class Debugger {
 		System.setErr(ps);
 	}
 
+	/**
+	 * Writes a debug message to file.*/
 	void writeToDebug(String s) {
 		System.err.println(s);
 	}
 
+	/**
+	 * Closes the filestream.
+	 */
 	void closeDebuggerStream() {
 		try {
 			Debugger.fos.close();

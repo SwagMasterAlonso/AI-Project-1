@@ -6,6 +6,13 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
+
+/**
+ * The purpose of this class is to communicate with the referre, reading
+ * in input( opponent moves/ game information) and output (our moves/ sending game info.).
+ * @author jameschow, amartinez
+ *
+ */
 public class Player {
 	private String name;
 
@@ -42,16 +49,16 @@ public class Player {
 			Move move = new Move(Integer.parseInt(ls.get(0)),Integer.parseInt(ls.get(1)));
 
 			this.algo.readMove(move);
-			
+
 			this.algo.getNextMove();
-			
-			
+
+
 			//create game tree
 			//run eval function on entire tree
 			//run minimax on tree
 			//return the next move
-			
-			
+
+
 			this.algo.writeMove();
 		}
 		else if(ls.size()==1){
