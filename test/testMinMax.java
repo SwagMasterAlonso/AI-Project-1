@@ -155,7 +155,7 @@ public class testMinMax {
 		newState.dropADiscFromTop(5,1);
 		algo.eval.setState(newState);
 
-		node = algo.createGameTree(6, newState, thisMove);
+		node = algo.createGameTree(1, newState, thisMove);
 
 
 		for(int i = 0; i < 6;i++){

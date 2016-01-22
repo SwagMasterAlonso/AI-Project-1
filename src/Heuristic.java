@@ -7,40 +7,71 @@ public class Heuristic {
 
 	int evaluate (int n, int player, int other) {
 		int finalValue = 0;
-		int nMinus1, nMinus2, oppNMinus1, oppNMinus2;
-		int longestN=0, emptySpaces=0, vertConn, horizConn, diagConn=0;
+		int nMinus1, nMinus2, oppNMinus1, oppNMinus2, connectN, oppConnectN;
+		int longestN=0, oppLongestN = 0, emptySpaces=0, vertConn, horizConn, diagConn=0;
+		int temp = 0, temp2 = 0;
 
-		nMinus1 = this.countNConnectionsH(n-1, player, other);
-				//+ this.countNConnectionsV(n-1, player, other);
-		nMinus2 = this.countNConnectionsH(n-2, player, other) + this.countNConnectionsV(n-2, player, other);
+		connectN = this.countNConnectionsH(n, player, other) + this.countNConnectionsV(n, player, other) + this.countNConnectionsDiag(n, player, other)
+		+ this.countNConnectionsDiag2(n, player, other);
 
-		
-		
-		oppNMinus1 = this.countNConnectionsH(n-1, other, player) + this.countNConnectionsV(n-1, other, player);
-		oppNMinus2 = this.countNConnectionsH(n-2, other, player) + this.countNConnectionsV(n-2, other, player);
+		oppConnectN = this.countNConnectionsH(n, other, player) + this.countNConnectionsV(n, other, player) + this.countNConnectionsDiag(n, other, player)
+		+ this.countNConnectionsDiag2(n, other, player);
+
+		nMinus1 = this.countNConnectionsH(n-1, player, other) + this.countNConnectionsV(n-1, player, other) + this.countNConnectionsDiag(n-1, player, other)
+				+ this.countNConnectionsDiag2(n-1, player, other);
+		nMinus2 = this.countNConnectionsH(n-2, player, other) + this.countNConnectionsV(n-2, player, other) + this.countNConnectionsDiag(n-2, player, other)
+				+ this.countNConnectionsDiag2(n-2, player, other);
+
+		oppNMinus1 = this.countNConnectionsH(n-1, other, player) + this.countNConnectionsV(n-1, other, player) + this.countNConnectionsDiag(n-1, other, player)
+					+ this.countNConnectionsDiag2(n-1, other, player);
+		oppNMinus2 = this.countNConnectionsH(n-2, other, player) + this.countNConnectionsV(n-2, other, player) + this.countNConnectionsDiag(n-2, other, player)
+		+ this.countNConnectionsDiag2(n-2, other, player);
 
 		vertConn = this.countNConnectionsV(n-1, player, other) + this.countNConnectionsV(n-2, player, other);
 		horizConn = this.countNConnectionsH(n-1, player, other) + this.countNConnectionsH(n-2, player, other);
+		diagConn = this.countNConnectionsDiag(n-1, player, other) + this.countNConnectionsDiag2(n-2, player, other) +
+				this.countNConnectionsDiag(n-2, player, other) + this.countNConnectionsDiag2(n-2, player, other);
 
-		
-		System.out.println("");
-		System.out.println("nMinus1 " +nMinus1);
-		System.out.println("");
-		System.out.println("nMinus2 " +nMinus2);
-		System.out.println("");
-		System.out.println("vertConn " +vertConn);
-		System.out.println("");
-		System.out.println("horizConn " +horizConn);
-		
-		
-		finalValue = 20*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN +
-				5*emptySpaces + 5*vertConn + 16*horizConn + 18*diagConn;
+		temp = this.longestN(n-3, player, other);
+		if (temp > 1) {
+			longestN = this.countNConnectionsH(temp, player, other) + this.countNConnectionsV(temp, player, other) + this.countNConnectionsDiag(temp, player, other)
+			+ this.countNConnectionsDiag2(temp, player, other);
+		}
 
-		
-		System.out.println("Fin Val is: " +finalValue);
+		temp2 = this.longestN(n-3, other, player);
+
+		if (temp2 > 1) {
+			oppLongestN = this.countNConnectionsH(temp, other, player) + this.countNConnectionsV(temp, other, player) + this.countNConnectionsDiag(temp, other, player)
+			+ this.countNConnectionsDiag2(temp, other, player);
+
+		}
+//		System.out.println("");
+//		System.out.println("nMinus1 " +nMinus1);
+//		System.out.println("");
+//		System.out.println("nMinus2 " +nMinus2);
+//		System.out.println("");
+//		System.out.println("vertConn " +vertConn);
+//		System.out.println("");
+//		System.out.println("horizConn " +horizConn);
+//		System.out.println("");
+//		System.out.println("oppnMinus1 " +oppNMinus1);
+//		System.out.println("");
+//		System.out.println("oppnMinus2 " +oppNMinus2);
+//		System.out.println("");
+//		System.out.println("oppnN " +oppConnectN);
+//		System.out.println("");
+//		System.out.println("diag " +diagConn);
+//		System.out.println("");
+
+
+		finalValue = 40*connectN - 60*oppConnectN + 20*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN -
+				((oppNMinus2 - oppLongestN) * 2)*oppLongestN + 5*emptySpaces + 5*vertConn + 16*horizConn + 18*diagConn;
+
+
+		//System.out.println("Fin Val is: " +finalValue);
 
 		return finalValue;
-		
+
 	}
 
 	int countNConnectionsH(int n, int player, int other) {
@@ -56,8 +87,6 @@ public class Heuristic {
 				if(this.currentState.board[i][j]==player){
 					max1++;
 					max2=0;
-					System.out.println("maxconh is: "+max1);
-
 				}
 				else if(this.currentState.board[i][j]==other){
 					if(max1==n) {
@@ -77,9 +106,7 @@ public class Heuristic {
 				counter++;
 			}
 		}
-		System.out.println("");
-		System.out.println("FINAL CON H " +counter);
-		System.out.println("");
+
 
 		return counter;
 	}
@@ -96,8 +123,6 @@ public class Heuristic {
 			for(int i=0;i<this.currentState.height;i++){
 				if(this.currentState.board[i][j]==player){
 					max1++;
-
-					System.out.println("max1 is: "+max1);
 				} else if (this.currentState.board[i][j]==other){
 					if(max1==n) {
 						counter++;
@@ -219,6 +244,16 @@ public class Heuristic {
 			}
 		}	 //end for y=x-k
 		return counter++;
+	}
+
+	private int longestN (int n, int player1, int player2) {
+		for (int i = n; i > 0; i--) {
+			if (this.countNConnectionsH(i, player1, player2) > 0 || this.countNConnectionsV(i, player1, player2) > 0 ||
+					this.countNConnectionsDiag(i, player1, player2) > 0 || this.countNConnectionsDiag2(i, player1, player2) > 0) {
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	void setState(Board state) {

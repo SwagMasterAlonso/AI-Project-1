@@ -74,7 +74,7 @@ public class MinMaxAlgorithm {
 				int tempValMax = this.minimax(gameNode.getNextLayer().get(i),depth -1,false,0,0);
 				//
 				bestScore= Math.max(bestScore,tempValMax);
-				System.out.println("The best score is: "+bestScore);
+				System.out.println("The best score for max is: "+bestScore);
 
 				//alpha beta pruning
 				//alpha = Math.max(alpha,bestScore);
@@ -95,7 +95,7 @@ public class MinMaxAlgorithm {
 
 				bestScore= Math.min(bestScore,tempValMin);
 
-				System.out.println("The best score is: "+bestScore);
+				System.out.println("The best score for min is: "+bestScore);
 
 			}
 
