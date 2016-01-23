@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class MinMaxAlgorithm {
@@ -11,8 +12,9 @@ public class MinMaxAlgorithm {
 	Debugger debugger;
 	Heuristic eval;
 	static int currDepth;
-
-
+	int tempValMax;
+	int tempValMin;
+	int score = -100000;
 	public MinMaxAlgorithm(Board state, int playerNum, int opponent) {
 		this.playerNum = playerNum;
 		this.opponentNum = opponent;
@@ -22,13 +24,54 @@ public class MinMaxAlgorithm {
 	}
 
 	void getNextMove () {
-		Random rand = new Random();
+		ArrayList <Integer> validMoves = new ArrayList<Integer>();
+		Move bestMove = null;
+		int tempScore = -10000;
+		GameNode tree = null;
+		Move move = null;
+		int i;
+		//	Random rand = new Random();
 		//code for finding the next move
 		//This is a random number generator that creates random moves
-		int randomNum = rand.nextInt((6-1)+1) + 1;
-		this.debugger.writeToDebug("col is: "+randomNum);
-		this.friendlyMove = new Move(randomNum, 1);
+		//		int randomNum = rand.nextInt((6-1)+1) + 1;
+		//		this.debugger.writeToDebug("col is: "+randomNum);
+		//		this.friendlyMove = new Move(randomNum, 1);
+		validMoves = findMoves(this.currentState);
+		//Collections.reverse(validMoves);
+		
+		for(i = 0; i < validMoves.size();i++){
+			
+			
+			System.out.println("");
+			System.out.println("");
+			System.out.println("Exploring validMoves at: " + i);
+		//	System.out.println(tempScore);
+		//	System.out.println(score);
+			System.out.println("");
+			System.out.println("");
 
+			move = new Move(validMoves.get(i),1);
+			tree = createGameTree(2,this.currentState,move);		
+			tempScore = this.minimax(tree, 2, true, -10000, 10000);
+			score= Math.max(score, tempScore);
+
+			if(tempScore >= score){
+				//System.out.println("Best Move is: "+bestMove);
+				bestMove = move;
+				System.out.println("");
+				System.out.println(tempScore);
+				System.out.println(score);
+				System.out.println("Best Move is: "+bestMove);
+				score = tempScore;
+				System.out.println("Best score is: "+score);
+				System.out.println("");
+			//	System.out.println("Col is " +bestMove.colNum);
+			} else {
+				System.out.println("Lower");
+			}
+		}
+
+		this.friendlyMove = bestMove;
 	}
 
 	void readMove(Move opponent){
@@ -52,7 +95,8 @@ public class MinMaxAlgorithm {
 
 
 	int minimax(GameNode gameNode,int depth, boolean isMax,int alpha, int beta) {
-		int i, bestScore = 0;
+		int i,j ,bestScore = 0;
+		
 		//Move newMove;
 
 		//friendly move should be up to date
@@ -61,7 +105,7 @@ public class MinMaxAlgorithm {
 		if (depth == 0 || gameNode.getNextLayer() ==null ) {
 
 			this.eval.setState(gameNode.getState());
-			System.out.println("Eval is: " +  eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum));
+		//	System.out.println("Eval is: " +  eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum));
 			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
 
 		} else if(isMax) {
@@ -71,16 +115,18 @@ public class MinMaxAlgorithm {
 
 
 			for(i = 0; i <gameNode.getNextLayer().size();i++){
-				int tempValMax = this.minimax(gameNode.getNextLayer().get(i),depth -1,false,0,0);
+				tempValMax = this.minimax(gameNode.getNextLayer().get(i),depth -1,false,alpha,beta);
 				//
 				bestScore= Math.max(bestScore,tempValMax);
-				System.out.println("The best score for max is: "+bestScore);
+			//	System.out.println("i is: " + i + " at depth " + depth );
+			//	System.out.println("The best score for max is: "+bestScore);
 
 				//alpha beta pruning
-				//alpha = Math.max(alpha,bestScore);
-				//if beta <= alpha{
-				//break
-				//}
+				alpha = Math.max(alpha,bestScore);
+				if (beta <= alpha){
+					System.out.println("Breaking");
+					break;
+				}
 				//end for
 				//stop iterating through all nodes here
 			}
@@ -89,22 +135,25 @@ public class MinMaxAlgorithm {
 			bestScore = 10000;
 
 
-			for(i = 0; i <gameNode.getNextLayer().size();i++){
+			for(j = 0; j <gameNode.getNextLayer().size();j++){
 
-				int tempValMin = this.minimax(gameNode.getNextLayer().get(i),depth -1,true,0,0);
+				tempValMin = this.minimax(gameNode.getNextLayer().get(j),depth -1,true,alpha,beta);
 
 				bestScore= Math.min(bestScore,tempValMin);
 
-				System.out.println("The best score for min is: "+bestScore);
+				
+				beta = Math.min(beta,bestScore);
+				if (beta <= alpha){
+					System.out.println("Breaking");
+					break;
+				}
+				
+			//	System.out.println("The best score for min is: "+bestScore);
 
 			}
-
-			return bestScore;
 			//alpha beta pruning
-			//beta = Math.min(beta,bestScore);
-			//if beta <= alpha{
-			//break
-			//}
+			return bestScore;
+			
 			//end for
 			//stop iterating through all nodes here			return bestScore;
 		}
@@ -127,6 +176,7 @@ public class MinMaxAlgorithm {
 	private ArrayList<GameNode> createLayers(int depth, Board current) {
 		Move newMove;
 		int i;
+		Board previousBoard = null;
 		GameNode newLeaf;
 		ArrayList<GameNode> list = new ArrayList<GameNode>();
 		Board savedState = new Board(current.height,current.width, current.N), newState;
@@ -139,8 +189,14 @@ public class MinMaxAlgorithm {
 		for (i = 0; i < validMoves.size(); i++) {
 			newMove = new Move(validMoves.get(i), this.playerNum);
 			newState = this.modifyState(savedState, newMove, this.playerNum);
+			
+			if(newState.equals(previousBoard)){
 			newLeaf = new GameNode(validMoves.get(i), savedState, this.createLayers(depth - 1, newState));
 			list.add(newLeaf);
+			previousBoard = newState;
+			} else{
+				System.out.println("Different");
+			}
 		}
 		return list;
 	}
