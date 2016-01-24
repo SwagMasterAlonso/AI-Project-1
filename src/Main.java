@@ -11,6 +11,7 @@ class Main {
 		Random rand = new Random();
 
 		Player player = new Player("SwagMaster"+rand.nextInt((1000-1)+1));
+	//	Player player = new Player("SwagMasterPenis2");
 		boolean firstSetup = true;
 
 		player.sendName();

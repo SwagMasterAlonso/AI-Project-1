@@ -69,7 +69,7 @@ public class Board {
 	 }
 
 
-	 public boolean canDropADiscFromTop(int col, int currentPlayer){
+	 public boolean canDropADiscFromTop(int col){
 		 if(col<0 || col>=this.width) {
 			 //System.out.println("Illegal column!");
 			 return false;
@@ -84,8 +84,11 @@ public class Board {
 
 	 public void dropADiscFromTop(int col, int currentplayer){
 		 int firstEmptyCellRow=height-this.numOfDiscsInColumn[col]-1;
+		
 		 board[firstEmptyCellRow][col]=currentplayer;
+		 
 		 this.numOfDiscsInColumn[col]++;
+		 
 	 }
 
 	 /**
@@ -115,6 +118,15 @@ public class Board {
 
 	 }
 
+	 
+	 
+	 public boolean canMakeMove(int col){
+		if(this.board[0][col]==9){
+			return true;
+		} else {
+			return false;
+		}
+	 }
   public int checkHorizontally(){
 	  int max1=0;
 		 int max2=0;
@@ -293,6 +305,17 @@ public class Board {
 			 return this.PLAYER2;
 
 		 return this.NOCONNECTION;
+   }
+   
+   public void removeMove(int col){
+	   
+	   for(int i = 0; i < this.width;i++){
+		   if(this.board[i][col]!=9){
+			   this.board[i][col] = 9;
+			   this.numOfDiscsInColumn[col]--;
+			   break;
+		   }
+	   }
    }
 
 	public boolean isFull(){

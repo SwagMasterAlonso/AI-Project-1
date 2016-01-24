@@ -92,9 +92,9 @@ public class Player {
 
 
 			if(this.isPlayer == 1){
-				algo = new MinMaxAlgorithm(this.board,this.isPlayer,2);
+				algo = new MinMaxAlgorithm(this.board,this.isPlayer,2,this.timeLimit);
 			} else {
-				algo = new MinMaxAlgorithm(this.board,this.isPlayer,1);
+				algo = new MinMaxAlgorithm(this.board,this.isPlayer,1,this.timeLimit);
 			}
 
 			if(this.isPlayer == this.whoGoesFirst){
