@@ -11,7 +11,8 @@ public class MinMaxAlgorithm {
 	Move friendlyMove;
 	Debugger debugger;
 	Heuristic eval;
-	static int currDepth;
+	static int currDepth =0;
+	static int tempDepth;
 	int tempValMax;
 	int tempValMin;
 	int score = -100000;
@@ -39,6 +40,7 @@ public class MinMaxAlgorithm {
 		validMoves = findMoves(this.currentState);
 		//Collections.reverse(validMoves);
 		
+		
 		for(i = 0; i < validMoves.size();i++){
 			
 			
@@ -51,24 +53,38 @@ public class MinMaxAlgorithm {
 			System.out.println("");
 
 			move = new Move(validMoves.get(i),1);
-			tree = createGameTree(2,this.currentState,move);		
-			tempScore = this.minimax(tree, 2, true, -10000, 10000);
-			score= Math.max(score, tempScore);
 
-			if(tempScore >= score){
+			
+			
+			tree = createGameTree(6,this.currentState,move);		
+			tempScore = this.minimax(tree, 6, true, -10000, 10000);
+		//	score= Math.max(score, tempScore);
+			
+			if(tempScore > score){
 				//System.out.println("Best Move is: "+bestMove);
+				System.out.println("Best Depth is: "+tempDepth);
 				bestMove = move;
-				System.out.println("");
-				System.out.println(tempScore);
-				System.out.println(score);
-				System.out.println("Best Move is: "+bestMove);
+//				System.out.println("");
+//				System.out.println(tempScore);
+//				System.out.println(score);
+//				System.out.println("Best Move is: "+bestMove);
+				currDepth = tempDepth;
 				score = tempScore;
-				System.out.println("Best score is: "+score);
-				System.out.println("");
+//				System.out.println("Best score is: "+score);
+//				System.out.println("");
 			//	System.out.println("Col is " +bestMove.colNum);
 			} else {
 				System.out.println("Lower");
+				System.out.println("Temp Depth didnt work was: " + tempDepth);
+				tempDepth = -1;
+				currDepth = 0;
+
+			
 			}
+			currDepth = 0;
+
+			tempDepth = -1;
+
 		}
 
 		this.friendlyMove = bestMove;
@@ -117,6 +133,11 @@ public class MinMaxAlgorithm {
 			for(i = 0; i <gameNode.getNextLayer().size();i++){
 				tempValMax = this.minimax(gameNode.getNextLayer().get(i),depth -1,false,alpha,beta);
 				//
+		
+				
+				if(tempValMax > bestScore){
+					tempDepth = gameNode.depth;
+				}
 				bestScore= Math.max(bestScore,tempValMax);
 			//	System.out.println("i is: " + i + " at depth " + depth );
 			//	System.out.println("The best score for max is: "+bestScore);
@@ -126,7 +147,7 @@ public class MinMaxAlgorithm {
 				if (beta <= alpha){
 					System.out.println("Breaking");
 					break;
-				}
+				} 
 				//end for
 				//stop iterating through all nodes here
 			}
@@ -138,7 +159,11 @@ public class MinMaxAlgorithm {
 			for(j = 0; j <gameNode.getNextLayer().size();j++){
 
 				tempValMin = this.minimax(gameNode.getNextLayer().get(j),depth -1,true,alpha,beta);
-
+				
+				if(tempValMin < bestScore){
+					tempDepth = gameNode.depth;
+				}
+				
 				bestScore= Math.min(bestScore,tempValMin);
 
 				
@@ -166,17 +191,23 @@ public class MinMaxAlgorithm {
 
 	GameNode createGameTree(int depth, Board givenState, Move move) {
 		Move newMove = move;
-		ArrayList<GameNode> nextMoves = createLayers(depth, givenState);
+		ArrayList<GameNode> nextMoves = createLayers(depth, this.modifyState(givenState, newMove, this.playerNum));
 
-		GameNode tree = new GameNode(newMove.getCol(), givenState, nextMoves);
-
+		GameNode tree = new GameNode(newMove.getCol(),givenState, nextMoves,depth);
+		
 		return tree;
 	}
 
 	private ArrayList<GameNode> createLayers(int depth, Board current) {
+		
+		
+		
+		
+		
+		
+		
 		Move newMove;
 		int i;
-		Board previousBoard = null;
 		GameNode newLeaf;
 		ArrayList<GameNode> list = new ArrayList<GameNode>();
 		Board savedState = new Board(current.height,current.width, current.N), newState;
@@ -185,16 +216,33 @@ public class MinMaxAlgorithm {
 		if (depth == 0) {
 			return null;
 		}
+	
+		
+		
+		
 		ArrayList<Integer> validMoves = this.findMoves(savedState);
+		
+		
 		for (i = 0; i < validMoves.size(); i++) {
 			newMove = new Move(validMoves.get(i), this.playerNum);
 			newState = this.modifyState(savedState, newMove, this.playerNum);
-			
-			newLeaf = new GameNode(validMoves.get(i), savedState, this.createLayers(depth - 1, newState));
+			newLeaf = new GameNode(validMoves.get(i), newState, this.createLayers(depth - 1, newState),depth-1);
 			list.add(newLeaf);
-			previousBoard = newState;
+			System.out.println("");
+
+			
+			//System.out.println("At depth: "+depth);
+
+			for(i = 0; i < 6;i++){
+				for(int j = 0; j < 7; j++){
+					System.out.print(current.board[i][j]+" ");
+				}
+				System.out.println("");
+			}
 		
 		}
+		
+		
 		return list;
 	}
 

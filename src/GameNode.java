@@ -14,16 +14,18 @@ public class GameNode {
 	/**The next layer of valid moves depending on the given state.*/
 	ArrayList<GameNode> nextLayer;
 
+	int depth;
 	/**
 	 * Constructor that creates a node of the game search tree.
 	 * @param moveNum
 	 * @param state
 	 * @param nextMoves
 	 */
-	GameNode(int moveNum, Board state, ArrayList<GameNode> nextMoves) {
+	GameNode(int moveNum, Board state, ArrayList<GameNode> nextMoves,int depth) {
 		this.moveNum = moveNum;
 		this.state = state;
 		this.nextLayer = nextMoves;
+		this.depth=depth;
 	}
 
 	/**

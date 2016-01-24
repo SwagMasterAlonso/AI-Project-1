@@ -130,9 +130,9 @@ public class testMinMax {
 
 	@Test
 	public void testMinimax2(){
-		Board newState = new Board(6,7,4);
+		Board newState = new Board(6,7,3);
 		MinMaxAlgorithm algo;
-		Move thisMove = new Move(2,1);
+		Move thisMove = new Move(6,1);
 		GameNode node;
 		Move bestMove = null;
 
@@ -144,9 +144,13 @@ public class testMinMax {
 //		newState.dropADiscFromTop(3,1);
 //		newState.dropADiscFromTop(3,1);
 //		newState.dropADiscFromTop(0,2);
-		newState.dropADiscFromTop(1,1);
-		newState.dropADiscFromTop(0,1);
-		newState.dropADiscFromTop(2, 1);
+		//newState.dropADiscFromTop(1,1);
+		newState.dropADiscFromTop(5,1);
+		newState.dropADiscFromTop(4,1);
+		
+		//newState.dropADiscFromTop(1,1);
+
+		//newState.dropADiscFromTop(5,1);
 
 
 		

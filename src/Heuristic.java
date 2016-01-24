@@ -10,15 +10,7 @@ public class Heuristic {
 		int nMinus1, nMinus2, oppNMinus1, oppNMinus2, connectN, oppConnectN;
 		int longestN=0, oppLongestN = 0, emptySpaces=0, vertConn, horizConn, diagConn=0;
 		int temp = 0, temp2 = 0;
-		System.out.println("");
-
-		for(int i = 0; i < 6;i++){
-			for(int j = 0; j < 7; j++){
-				System.out.print(currentState.board[i][j]+" ");
-			}
-			System.out.println("");
-		}
-		System.out.println("");
+	
 
 		
 		connectN = this.countNConnectionsH(n, player, other) + this.countNConnectionsV(n, player, other) + this.countNConnectionsDiag(n, player, other)
@@ -74,11 +66,11 @@ public class Heuristic {
 //		System.out.println("");
 
 
-	//	finalValue = 40*connectN - 60*oppConnectN + 20*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN -
-	//			((oppNMinus2 - oppLongestN) * 2)*oppLongestN + 5*emptySpaces + 5*vertConn + 16*horizConn + 18*diagConn;
+//		finalValue = 240*connectN - 60*oppConnectN + 100*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN -
+//				((oppNMinus2 - oppLongestN) * 2)*oppLongestN + 5*emptySpaces + 5*vertConn + 16*horizConn + 18*diagConn;
+//
 
-
-		finalValue = 100*connectN;
+		finalValue = 100*connectN+ 30*nMinus1 +10*nMinus2;
 		System.out.println("Fin Val is: " +finalValue);
 
 		return finalValue;
