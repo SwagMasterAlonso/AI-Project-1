@@ -190,13 +190,10 @@ public class MinMaxAlgorithm {
 			newMove = new Move(validMoves.get(i), this.playerNum);
 			newState = this.modifyState(savedState, newMove, this.playerNum);
 			
-			if(newState.equals(previousBoard)){
 			newLeaf = new GameNode(validMoves.get(i), savedState, this.createLayers(depth - 1, newState));
 			list.add(newLeaf);
 			previousBoard = newState;
-			} else{
-				System.out.println("Different");
-			}
+		
 		}
 		return list;
 	}

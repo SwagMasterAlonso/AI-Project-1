@@ -130,7 +130,7 @@ public class testMinMax {
 
 	@Test
 	public void testMinimax2(){
-		Board newState = new Board(4,5,4);
+		Board newState = new Board(3,3,3);
 		MinMaxAlgorithm algo;
 		Move thisMove = new Move(2,1);
 		GameNode node;
@@ -140,12 +140,12 @@ public class testMinMax {
 		//newState.dropADiscFromTop(2,2);
 		//newState.dropADiscFromTop(2,2);
 		//newState.dropADiscFromTop(2,2);
-		newState.dropADiscFromTop(3,1);
-		newState.dropADiscFromTop(3,1);
-		newState.dropADiscFromTop(3,1);
-		newState.dropADiscFromTop(0,2);
-		newState.dropADiscFromTop(0,2);
-		newState.dropADiscFromTop(0,2);
+//		newState.dropADiscFromTop(3,1);
+//		newState.dropADiscFromTop(3,1);
+//		newState.dropADiscFromTop(3,1);
+//		newState.dropADiscFromTop(0,2);
+		newState.dropADiscFromTop(2,1);
+		newState.dropADiscFromTop(0,1);
 
 
 		
@@ -156,8 +156,8 @@ public class testMinMax {
 		//node = algo.createGameTree(2, newState, thisMove);
 
 
-		for(int i = 0; i < 4;i++){
-			for(int j = 0; j < 5; j++){
+		for(int i = 0; i < 3;i++){
+			for(int j = 0; j < 3; j++){
 				System.out.print(newState.board[i][j]+" ");
 			}
 			System.out.println("");
@@ -172,8 +172,8 @@ public class testMinMax {
 		algo.getNextMove();
 		bestMove = algo.friendlyMove;
 		newState.dropADiscFromTop(bestMove.colNum, 1);
-		for(int i = 0; i < 4;i++){
-			for(int j = 0; j < 5; j++){
+		for(int i = 0; i < 3;i++){
+			for(int j = 0; j < 3; j++){
 				System.out.print(newState.board[i][j]+" ");
 			}
 			System.out.println("");
