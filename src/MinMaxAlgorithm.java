@@ -39,11 +39,11 @@ public class MinMaxAlgorithm {
 		//		this.friendlyMove = new Move(randomNum, 1);
 		validMoves = findMoves(this.currentState);
 		//Collections.reverse(validMoves);
-		
-		
+
+
 		for(i = 0; i < validMoves.size();i++){
-			
-			
+
+
 			System.out.println("");
 			System.out.println("");
 			System.out.println("Exploring validMoves at: " + i);
@@ -52,14 +52,18 @@ public class MinMaxAlgorithm {
 			System.out.println("");
 			System.out.println("");
 
-			move = new Move(validMoves.get(i),1);
+			if (validMoves.get(i) > this.currentState.width) {
+				move = new Move((validMoves.get(i)-10) , 0);
+			} else  {
+				move = new Move(validMoves.get(i), 1);
+			}
 
-			
-			
-			tree = createGameTree(6,this.currentState,move);		
-			tempScore = this.minimax(tree, 6, true, -10000, 10000);
+
+
+			tree = createGameTree(3,this.currentState,move);
+			tempScore = this.minimax(tree, 3, true, -10000, 10000);
 		//	score= Math.max(score, tempScore);
-			
+
 			if(tempScore > score){
 				//System.out.println("Best Move is: "+bestMove);
 				System.out.println("Best Depth is: "+tempDepth);
@@ -79,7 +83,7 @@ public class MinMaxAlgorithm {
 				tempDepth = -1;
 				currDepth = 0;
 
-			
+
 			}
 			currDepth = 0;
 
@@ -92,14 +96,22 @@ public class MinMaxAlgorithm {
 
 	void readMove(Move opponent){
 		this.opponentMove = opponent;
-
-		this.currentState.dropADiscFromTop(opponent.getCol(), this.opponentNum);
-
+		if(opponentMove.isDrop){
+			this.currentState.dropADiscFromTop(opponent.getCol(), this.opponentNum);
+		}
+		else {
+			this.currentState.removeADiscFromBottom(opponent.getCol());
+		}
 	}
 
 	void writeMove() {
-		this.currentState.dropADiscFromTop(this.friendlyMove.getCol(), this.playerNum);
 
+		if(this.friendlyMove.isDrop){
+			this.currentState.dropADiscFromTop(this.friendlyMove.getCol(), this.playerNum);
+		}
+		else {
+			this.currentState.removeADiscFromBottom(this.friendlyMove.getCol());
+		}
 		System.out.println(this.friendlyMove.toString());
 	}
 
@@ -112,7 +124,7 @@ public class MinMaxAlgorithm {
 
 	int minimax(GameNode gameNode,int depth, boolean isMax,int alpha, int beta) {
 		int i,j ,bestScore = 0;
-		
+
 		//Move newMove;
 
 		//friendly move should be up to date
@@ -133,8 +145,8 @@ public class MinMaxAlgorithm {
 			for(i = 0; i <gameNode.getNextLayer().size();i++){
 				tempValMax = this.minimax(gameNode.getNextLayer().get(i),depth -1,false,alpha,beta);
 				//
-		
-				
+
+
 				if(tempValMax > bestScore){
 					tempDepth = gameNode.depth;
 				}
@@ -147,7 +159,7 @@ public class MinMaxAlgorithm {
 				if (beta <= alpha){
 					System.out.println("Breaking");
 					break;
-				} 
+				}
 				//end for
 				//stop iterating through all nodes here
 			}
@@ -159,26 +171,26 @@ public class MinMaxAlgorithm {
 			for(j = 0; j <gameNode.getNextLayer().size();j++){
 
 				tempValMin = this.minimax(gameNode.getNextLayer().get(j),depth -1,true,alpha,beta);
-				
+
 				if(tempValMin < bestScore){
 					tempDepth = gameNode.depth;
 				}
-				
+
 				bestScore= Math.min(bestScore,tempValMin);
 
-				
+
 				beta = Math.min(beta,bestScore);
 				if (beta <= alpha){
 					System.out.println("Breaking");
 					break;
 				}
-				
+
 			//	System.out.println("The best score for min is: "+bestScore);
 
 			}
 			//alpha beta pruning
 			return bestScore;
-			
+
 			//end for
 			//stop iterating through all nodes here			return bestScore;
 		}
@@ -194,18 +206,18 @@ public class MinMaxAlgorithm {
 		ArrayList<GameNode> nextMoves = createLayers(depth, this.modifyState(givenState, newMove, this.playerNum));
 
 		GameNode tree = new GameNode(newMove.getCol(),givenState, nextMoves,depth);
-		
+
 		return tree;
 	}
 
 	private ArrayList<GameNode> createLayers(int depth, Board current) {
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
 		Move newMove;
 		int i;
 		GameNode newLeaf;
@@ -216,21 +228,25 @@ public class MinMaxAlgorithm {
 		if (depth == 0) {
 			return null;
 		}
-	
-		
-		
-		
+
+
+
+
 		ArrayList<Integer> validMoves = this.findMoves(savedState);
-		
-		
+
+
 		for (i = 0; i < validMoves.size(); i++) {
-			newMove = new Move(validMoves.get(i), this.playerNum);
+			if (validMoves.get(i) > this.currentState.width) {
+				newMove = new Move((validMoves.get(i)-10) , 0);
+			} else  {
+				newMove = new Move(validMoves.get(i), 1);
+			}
 			newState = this.modifyState(savedState, newMove, this.playerNum);
 			newLeaf = new GameNode(validMoves.get(i), newState, this.createLayers(depth - 1, newState),depth-1);
 			list.add(newLeaf);
 			System.out.println("");
 
-			
+
 			//System.out.println("At depth: "+depth);
 
 			for(i = 0; i < 6;i++){
@@ -239,10 +255,10 @@ public class MinMaxAlgorithm {
 				}
 				System.out.println("");
 			}
-		
+
 		}
-		
-		
+
+
 		return list;
 	}
 
@@ -254,7 +270,11 @@ public class MinMaxAlgorithm {
 			if (state.canDropADiscFromTop(i, this.playerNum)) {
 				openList.add(i);
 			}
+//			if (state.canRemoveADiscFromBottom(i, this.playerNum)) {
+//				openList.add(i + 10);
+//			}
 		}
+
 		return openList;
 	}
 	/**
@@ -269,7 +289,13 @@ public class MinMaxAlgorithm {
 		int[][] tempBoard = this.copyBoard(current.getBoard());
 		caliState.board = tempBoard;
 		caliState.numOfDiscsInColumn = this.copyNumDiscsInColumn(current.numOfDiscsInColumn);
-		caliState.dropADiscFromTop(move.getCol(), player);
+
+		if (move.isDrop) {
+			caliState.dropADiscFromTop(move.getCol(), player);
+		} else if (move.isPop) {
+			caliState.removeADiscFromBottom(move.getCol());
+		}
+
 		return caliState;
 	}
 
