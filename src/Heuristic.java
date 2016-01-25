@@ -1,31 +1,53 @@
-
+/**
+ * The purpose of this class is the encapsulate the action of evaluating a given
+ * board. This class also does all the computer associated with evaluating a board.
+ * It counts the various the connect-N.
+ * @author amartinez, jameschow
+ *
+ */
 public class Heuristic {
+	/**The given state of the baord to evaluate.*/
 	private Board currentState;
 
+	/**Default contructor to create the heuristic object.*/
 	public Heuristic() {
 	}
 
+	/**
+	 * Evaluates the given board based on the number of N-connections, n-1-connections,
+	 * n-2-connections, longest n-connections, and empty spaces for both the our player
+	 * and the opponent.
+	 * @param n, Disks to win game.
+	 * @param player, Which player we are.
+	 * @param other, The number of the opponent.
+	 * @return, The evaluation value of the given state.
+	 */
 	int evaluate (int n, int player, int other) {
 		int finalValue = 0;
 		int nMinus1, nMinus2, oppNMinus1, oppNMinus2, connectN, oppConnectN;
 		int longestN=0, oppLongestN = 0, emptySpaces=0, vertConn, horizConn, diagConn=0;
 		int temp = 0, temp2 = 0;
-	
 
-		
+
+		/**Counts n-connections.*/
 		connectN = this.countNConnectionsH(n, player, other) + this.countNConnectionsV(n, player, other) + this.countNConnectionsDiag(n, player, other)
 		+ this.countNConnectionsDiag2(n, player, other);
 
+		/**Counts n-connections for enemy.*/
 		oppConnectN = this.countNConnectionsH(n, other, player) + this.countNConnectionsV(n, other, player) + this.countNConnectionsDiag(n, other, player)
 		+ this.countNConnectionsDiag2(n, other, player);
 
+		/**Counts n-1-connections.*/
 		nMinus1 = this.countNConnectionsH(n-1, player, other) + this.countNConnectionsV(n-1, player, other) + this.countNConnectionsDiag(n-1, player, other)
 				+ this.countNConnectionsDiag2(n-1, player, other);
+		/**Counts n-2-connections.*/
 		nMinus2 = this.countNConnectionsH(n-2, player, other) + this.countNConnectionsV(n-2, player, other) + this.countNConnectionsDiag(n-2, player, other)
 				+ this.countNConnectionsDiag2(n-2, player, other);
 
+		/**Counts n-1-connections for enemy.*/
 		oppNMinus1 = this.countNConnectionsH(n-1, other, player) + this.countNConnectionsV(n-1, other, player) + this.countNConnectionsDiag(n-1, other, player)
 					+ this.countNConnectionsDiag2(n-1, other, player);
+		/**Counts n-2-connections for enemy.*/
 		oppNMinus2 = this.countNConnectionsH(n-2, other, player) + this.countNConnectionsV(n-2, other, player) + this.countNConnectionsDiag(n-2, other, player)
 		+ this.countNConnectionsDiag2(n-2, other, player);
 
@@ -77,6 +99,8 @@ public class Heuristic {
 
 	}
 
+	/**Counts the N horizontal connections given the designated player.
+	 * Returns the counts.*/
 	int countNConnectionsH(int n, int player, int other) {
 		int max1;
 		int max2;
@@ -114,6 +138,8 @@ public class Heuristic {
 		return counter;
 	}
 
+	/**Counts the N vertical connections given the designated player.
+	 * Returns the counts.*/
 	int countNConnectionsV(int n, int player, int other) {
 		int max1;
 		int max2;
@@ -147,6 +173,8 @@ public class Heuristic {
 		return counter;
 	}
 
+	/**Returns the number of diagonal connections given n and the designated player.
+	 * Search for connections in one section of the board.*/
 	int countNConnectionsDiag(int n, int player, int other) {
 		//check diagonally y=-x+k
 		int max1=0;
@@ -198,6 +226,8 @@ public class Heuristic {
 		return counter;
 	}
 
+	/**Returns the number of diagonal connections given n and the designated player.
+	 * Search for connections in other section of the board.*/
 	int countNConnectionsDiag2(int n, int player, int other) {
 		//check diagonally y=x-k
 		int max1=0;
@@ -249,6 +279,13 @@ public class Heuristic {
 		return counter++;
 	}
 
+	/**
+	 * Returns the number of connections available on the board.
+	 * @param n, Specified n-connections.
+	 * @param player1, The designated player.
+	 * @param player2, The other player.
+	 * @return, The longest n-connections on the given board.
+	 */
 	private int longestN (int n, int player1, int player2) {
 		for (int i = n; i > 0; i--) {
 			if (this.countNConnectionsH(i, player1, player2) > 0 || this.countNConnectionsV(i, player1, player2) > 0 ||
@@ -259,6 +296,11 @@ public class Heuristic {
 		return 0;
 	}
 
+	/***
+	 * Called when the alogrithm wants to evaluate a certain board,
+	 * either at the certain depth or any other modified board.
+	 * @param state, Given state.
+	 */
 	void setState(Board state) {
 		this.currentState = state;
 	}

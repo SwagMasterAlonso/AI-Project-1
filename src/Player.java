@@ -43,17 +43,9 @@ public class Player {
 	 * @throws IOException
 	 */
 	void readInput() throws IOException {
-
-		//PrintWriter read = new PrintWriter("boobs.txt");
-
-
-
-		//Scanner sc = new Scanner(System.in);
 		String s = input.readLine();
 
 		List<String> ls=Arrays.asList(s.split(" "));
-
-		//read.println(ls.size());
 
 		if(ls.size()==2){/**Reads the move of the opponent.*/
 			//System.out.println(ls.get(0)+" "+ls.get(1));
@@ -63,8 +55,6 @@ public class Player {
 
 			/**Gets the next move to make.*/
 			this.algo.getNextMove();
-
-
 			/**
 			 * create game tree
 			 * run eval function on entire tree
@@ -77,24 +67,10 @@ public class Player {
 			/**Reads in that the referree says game over.*/
 			System.out.println("game over!!!");
 			System.exit(0);
-
-			//read.println("Hey");
-			//read.close();
-
-			//			for(int i = 0; i < this.boardHeight;i++){
-			//				for(int j = 0; j < this.boardWidth;j++){
-			//					read.print(this.board.board[i][j]);
-			//					read.flush();
-			//				}
-			//				read.println("");
-			//			}
-			//			read.close();
-
-
 		}
 		else if(ls.size()==5){
 			//System.out.println("0 1");  //first move
-			/**Reads in the game information for board creation and algorithm  initialization.*/
+			/**Reads in the game information for board creation and algorithm initialization.*/
 			this.boardHeight = Integer.parseInt(ls.get(0));
 			this.boardWidth = Integer.parseInt(ls.get(1));
 			this.nPieces  = Integer.parseInt(ls.get(2));
@@ -118,7 +94,7 @@ public class Player {
 
 		}
 		else if(ls.size()==4){		//player1: aa player2: bb
-			/***/
+			/**Reads in who is player 1 and who is player 2.*/
 			if (ls.get(1).equals(this.name)){
 				this.isPlayer = 1;
 			} else {
