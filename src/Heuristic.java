@@ -71,44 +71,12 @@ public class Heuristic {
 			+ this.countNConnectionsDiag2(temp, other, player);
 
 		}
-//		System.out.println("");
-//		System.out.println("nMinus1 " +nMinus1);
-//		System.out.println("");
-//		System.out.println("nMinus2 " +nMinus2);
-//		System.out.println("");
-//		System.out.println("vertConn " +vertConn);
-//		System.out.println("");
-//		System.out.println("horizConn " +horizConn);
-//		System.out.println("");
-//		System.out.println("oppnMinus1 " +oppNMinus1);
-//		System.out.println("");
-//		System.out.println("oppnMinus2 " +oppNMinus2);
-//		System.out.println("");
-//		System.out.println("oppnN " +oppConnectN);
-//		System.out.println("");
-//		System.out.println("diag " +diagConn);
-//		System.out.println("");
 
 
-		finalValue = 240*connectN - 10*oppConnectN +60*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + longestN -5*
-				5*oppLongestN + 5*emptySpaces+220*middle;
+//		finalValue = 400*connectN + 50*oppConnectN +180*nMinus1 + 80*nMinus2 + 40*oppNMinus1 + 20*oppNMinus2 + 5*longestN - 
+//				5*oppLongestN + 5*emptySpaces+100*middle;
 
-		
-		//Working 10:30 PM
-//		finalValue = 240*connectN - 10*oppConnectN +30*nMinus1 + 10*nMinus2 - 10*oppNMinus1 - 5*oppNMinus2 + longestN -5*
-//				5*oppLongestN + 5*emptySpaces+120*middle+vertConn + 16*horizConn + 5*diagConn;
-		
-		
-		
-//		Working 10:07 PM
-		
-//		finalValue = 120*connectN - 30*oppConnectN +60*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + longestN -5*
-//				5*oppLongestN + 5*emptySpaces+120*middle;
-				//5*vertConn + 16*horizConn + 18*diagConn;
-
-
-		//finalValue = 200*connectN+ 30*nMinus1 +10*nMinus2;
-		//System.out.println("Fin Val is: " +finalValue);
+		finalValue = 200*connectN +1000*oppConnectN +800*nMinus1 +400*nMinus2+100*middle+500*oppNMinus1+5*diagConn+30*horizConn;
 
 		return finalValue;
 

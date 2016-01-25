@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * The purpose of the GameNode class is to create a game search tree, so we can
  * save game decisions for Connect-N moves.
  * @author jameschow, amartinez
- *
+ *@deprecated
  */
 public class GameNode {
 	/**The given move at a node of the tree.*/

@@ -6,22 +6,25 @@ import java.util.Random;
 class Main {
 
 	public static void main(String[] args) throws IOException {
-		//PrintWriter out = new PrintWriter("config.txt");
-		//create a player
+
+		//create a random number to add to our player
+		//used to run two players of same jar against each other
 		Random rand = new Random();
+		
+		
+		//generate our new player
+		Player player = new Player("SwagMaster"+rand.nextInt((1000-1)+1));
 
-		Player player = new Player("SwagMaster"+rand.nextInt((1000-1)+1)+"PeniiRecent");
-	//	Player player = new Player("SwagMasterPenis2");
-		boolean firstSetup = true;
-
+		
+		//send our name to the referee
 		player.sendName();
 
-		while (firstSetup) {
+		
+		//begin polling and sending data until system exit
+		while (true) {
 			player.readInput();
 
-			//out.println(player);
-			//out.close();
-			//firstSetup = false;
+		
 		}
 
 	}

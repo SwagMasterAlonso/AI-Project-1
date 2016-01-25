@@ -1,10 +1,8 @@
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.List;
 
 
 /**
@@ -85,8 +83,8 @@ public class Player {
 				algo = new MinMaxAlgorithm(this.board,this.isPlayer,1,this.timeLimit);
 			}
 
-			
-			
+
+
 			if(this.isPlayer == this.whoGoesFirst && this.isFirstRun == true){
 				System.out.println("3 1");
 				isFirstRun = false;
