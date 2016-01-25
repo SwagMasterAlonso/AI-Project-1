@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class Player {
 	private String name;
-
+	boolean isFirstRun = true;
 	protected int boardHeight, boardWidth, nPieces, whoGoesFirst, timeLimit,isPlayer;
 	private Board board; //initial board
 	BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -85,10 +85,14 @@ public class Player {
 				algo = new MinMaxAlgorithm(this.board,this.isPlayer,1,this.timeLimit);
 			}
 
-			if(this.isPlayer == this.whoGoesFirst){
+			
+			
+			if(this.isPlayer == this.whoGoesFirst && this.isFirstRun == true){
+				System.out.println("3 1");
+				isFirstRun = false;
+			} else {
 				this.algo.getNextMove();
 				this.algo.writeMove();
-
 			}
 
 

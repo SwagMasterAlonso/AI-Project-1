@@ -51,6 +51,8 @@ public class Heuristic {
 		oppNMinus2 = this.countNConnectionsH(n-2, other, player) + this.countNConnectionsV(n-2, other, player) + this.countNConnectionsDiag(n-2, other, player)
 		+ this.countNConnectionsDiag2(n-2, other, player);
 
+		
+		int middle = this.numDiscsInMiddle(player,other);
 		vertConn = this.countNConnectionsV(n-1, player, other) + this.countNConnectionsV(n-2, player, other);
 		horizConn = this.countNConnectionsH(n-1, player, other) + this.countNConnectionsH(n-2, player, other);
 		diagConn = this.countNConnectionsDiag(n-1, player, other) + this.countNConnectionsDiag2(n-2, player, other) +
@@ -88,17 +90,49 @@ public class Heuristic {
 //		System.out.println("");
 
 
-		finalValue = 240*connectN - 10*oppConnectN + 100*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN -
-				((oppNMinus2 - oppLongestN) * 2)*oppLongestN + 5*emptySpaces + 5*vertConn + 16*horizConn + 18*diagConn;
+		finalValue = 240*connectN - 10*oppConnectN +60*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + longestN -5*
+				5*oppLongestN + 5*emptySpaces+220*middle;
+
+		
+		//Working 10:30 PM
+//		finalValue = 240*connectN - 10*oppConnectN +30*nMinus1 + 10*nMinus2 - 10*oppNMinus1 - 5*oppNMinus2 + longestN -5*
+//				5*oppLongestN + 5*emptySpaces+120*middle+vertConn + 16*horizConn + 5*diagConn;
+		
+		
+		
+//		Working 10:07 PM
+		
+//		finalValue = 120*connectN - 30*oppConnectN +60*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + longestN -5*
+//				5*oppLongestN + 5*emptySpaces+120*middle;
+				//5*vertConn + 16*horizConn + 18*diagConn;
 
 
 		//finalValue = 200*connectN+ 30*nMinus1 +10*nMinus2;
-		System.out.println("Fin Val is: " +finalValue);
+		//System.out.println("Fin Val is: " +finalValue);
 
 		return finalValue;
 
 	}
 
+	
+	
+    private int numDiscsInMiddle (int player, int player2) {
+        int max1 = 0;
+
+        int upperBound = this.currentState.width/2 + 1;
+        int lowerBound = this.currentState.width/2 - 1;
+        //check each row, horizontally
+        for(int i=0;i<this.currentState.height;i++){
+            max1=0;
+            for(int j=lowerBound;j<upperBound;j++){
+                if(this.currentState.board[i][j]==player){
+                    max1++;
+                }
+
+            }
+        }
+        return max1;
+    }
 	/**Counts the N horizontal connections given the designated player.
 	 * Returns the counts.*/
 	int countNConnectionsH(int n, int player, int other) {

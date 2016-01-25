@@ -164,18 +164,22 @@ public class testMinMax {
 
 		//node = algo.createGameTree(2, newState, thisMove);
 
-
-		for(int i = 0; i < 6;i++){
-			for(int j = 0; j < 7; j++){
-				System.out.print(newState.board[i][j]+" ");
-			}
-			System.out.println("");
-		}
+//		System.out.println("Starting Millis " +System.currentTimeMillis());
+//
+//		for(int i = 0; i < 6;i++){
+//			for(int j = 0; j < 7; j++){
+//				System.out.print(newState.board[i][j]+" ");
+//			}
+//			System.out.println("");
+//		}
 
 		//algo.minimax(3, false, 100, -100);
-		algo.getMaxMoveColumn(5);
+
+		algo.getNextMove();
+		//System.out.println(algo.pruned);
 		
-		
+		//System.out.println("Ending Millis " +System.currentTimeMillis());
+
 		//assertEquals(algo.eval.countNConnectionsH(6, algo.playerNum, algo.opponentNum),1);
 		//assertEquals(algo.eval.countNConnectionsH(2, algo.playerNum, algo.opponentNum),1);
 

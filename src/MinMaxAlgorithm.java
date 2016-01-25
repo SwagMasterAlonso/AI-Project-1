@@ -41,7 +41,7 @@ public class MinMaxAlgorithm {
 	/**The time limit that the player has to make a move.*/
 	int timeLimit;
 	/**Max depth that the algorithm searches.*/
-	int maxDepth = 10;
+	int maxDepth = 6;
 	/**The best result from the minmax algorithm.*/
 	int colBest;
 	/**The Bestscore for a modified state from minmax recursions.*/
@@ -50,6 +50,8 @@ public class MinMaxAlgorithm {
 	int worstScore=1000;
 	/**The best move to take for a given state of the board.*/
 	int bestMoveNum;
+	
+	int pruned = 0;
 	/**
 	 * Constructor for the class that creates a MinMaxAlgorithm object that can run
 	 * the algorithm, search for the best move, and send the best move to the player.
@@ -72,26 +74,25 @@ public class MinMaxAlgorithm {
 		
 
 		int bestDepthScore = -1000;
+		//////System.out.println("Starting Millis " +System.currentTimeMillis());
+		//double startTime = System.currentTimeMillis();
+		//countDown(this.timeLimit-3);
+
 		
 		for(int i = 0; i < maxDepth;i++){
-			int score = this.getMaxMoveColumn(i);
 			
-			if(bestScore > bestDepthScore){
-				bestDepthScore = bestScore;
-				bestMoveNum = score;
-				Move bestMove = new Move(bestMoveNum,1);
-				this.friendlyMove = bestMove;
+			
+				
+				
+				int score = this.getMaxMoveColumn(i);
+				
+				if(bestScore > bestDepthScore){
+					bestDepthScore = bestScore;
+					bestMoveNum = score;
+					Move bestMove = new Move(bestMoveNum,1);
+					this.friendlyMove = bestMove;
+				}
 			}
-		
-		}
-		
-		
-	
-		
-		
-		
-		
-		
 		
 	}
 	
@@ -140,7 +141,7 @@ public class MinMaxAlgorithm {
 	//		if (depth == 0 || gameNode.getNextLayer() ==null ) {
 	//
 	//			this.eval.setState(gameNode.getState());
-	//		//	/////System.out.println("Eval is: " +  eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum));
+	//		//	///////////System.out.println("Eval is: " +  eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum));
 	//			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
 	//
 	//		} else if(isMax) {
@@ -158,13 +159,13 @@ public class MinMaxAlgorithm {
 	//					tempDepth = gameNode.depth;
 	//				}
 	//				bestScore= Math.max(bestScore,tempValMax);
-	//			//	/////System.out.println("i is: " + i + " at depth " + depth );
-	//			//	/////System.out.println("The best score for max is: "+bestScore);
+	//			//	///////////System.out.println("i is: " + i + " at depth " + depth );
+	//			//	///////////System.out.println("The best score for max is: "+bestScore);
 	//
 	//				//alpha beta pruning
 	//				alpha = Math.max(alpha,bestScore);
 	//				if (beta <= alpha){
-	//					/////System.out.println("Breaking");
+	//					///////////System.out.println("Breaking");
 	//					break;
 	//				}
 	//				//end for
@@ -188,11 +189,11 @@ public class MinMaxAlgorithm {
 	//
 	//				beta = Math.min(beta,bestScore);
 	//				if (beta <= alpha){
-	//					/////System.out.println("Breaking");
+	//					///////////System.out.println("Breaking");
 	//					break;
 	//				}
 	//
-	//			//	/////System.out.println("The best score for min is: "+bestScore);
+	//			//	///////////System.out.println("The best score for min is: "+bestScore);
 	//
 	//			}
 	//			//alpha beta pruning
@@ -213,7 +214,7 @@ public class MinMaxAlgorithm {
 	//
 	//
 	//		if(depth == maxDepth){
-	//			System.out.println("At Max Depth: "+depth);
+	//			//////System.out.println("At Max Depth: "+depth);
 	//			this.eval.setState(this.currentState);
 	//			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
 	//		}
@@ -227,20 +228,20 @@ public class MinMaxAlgorithm {
 	//
 	//			if(isMax){
 	//			currentState.dropADiscFromTop(i,1);
-	//			System.out.println("Max Move is at "+i);
+	//			//////System.out.println("Max Move is at "+i);
 	//
 	//
 	//
 	//			for(int x = 0; x < 3;x++){
 	//				for(int y = 0; y < 3; y++){
-	//					System.out.print(currentState.board[x][y]+" ");
+	//					////System.out.print(currentState.board[x][y]+" ");
 	//				}
-	//				System.out.println("");
+	//				//////System.out.println("");
 	//			}
-	//			System.out.println("");
+	//			//////System.out.println("");
 	//
 	//			tempScore = minimax(depth-1,false,alpha,beta);
-	//			System.out.println("Score at " +i+" is "+tempScore);
+	//			//////System.out.println("Score at " +i+" is "+tempScore);
 	//
 	//
 	//
@@ -248,11 +249,11 @@ public class MinMaxAlgorithm {
 	//
 	//
 	//			if(this.currentState.isConnectN() == 1){
-	//				System.out.println("Is connect N");
-	//				System.out.println("Best Column is " + colBest);
+	//				//////System.out.println("Is connect N");
+	//				//////System.out.println("Best Column is " + colBest);
 	//				bestScore = bestScore*2+1000*depth;
-	//				System.out.println(depth);
-	//				System.out.println(bestScore);
+	//				//////System.out.println(depth);
+	//				//////System.out.println(bestScore);
 	//				//colBest =i;
 	//				//return colBest;
 	//
@@ -266,39 +267,39 @@ public class MinMaxAlgorithm {
 	//			}
 	//
 	//			if(depth == 0){
-	//				System.out.println("In 0");
+	//				//////System.out.println("In 0");
 	//				colBest = i;
 	//				break;
-	//				//System.out.println("Best Column is " + colBest);
+	//				////////System.out.println("Best Column is " + colBest);
 	//			}
 	//		} else {
 	//			currentState.dropADiscFromTop(i,2);
-	//			System.out.println("Min Move is at "+ i);
+	//			//////System.out.println("Min Move is at "+ i);
 	//
 	//			for(int f = 0; f < 3;f++){
 	//				for(int g = 0; g < 3; g++){
-	//					System.out.print(currentState.board[f][g]+" ");
+	//					////System.out.print(currentState.board[f][g]+" ");
 	//				}
-	//				System.out.println("");
+	//				//////System.out.println("");
 	//			}
 	//
 	//
-	//			System.out.println("");
+	//			//////System.out.println("");
 	//			tempScore = minimax(depth-1,true,alpha,beta);
 	//			worstScore = Math.min(tempScore, worstScore);
-	//			System.out.println("Depth at min is: " + depth);
+	//			//////System.out.println("Depth at min is: " + depth);
 	//
 	//		}
-	//			//System.out.println("Removing move at: " +i);
+	//			////////System.out.println("Removing move at: " +i);
 	//			///currentState.removeMove(i);
 	//		}
 	//
 	//
 	//		if(isMax){
-	//			System.out.println("Best Column at end is " + colBest);
+	//			//////System.out.println("Best Column at end is " + colBest);
 	//			return bestScore;
 	//		} else {
-	//			System.out.println("Best Column at end is " + colBest);
+	//			//////System.out.println("Best Column at end is " + colBest);
 	//			return worstScore;
 	//		}
 	//	}
@@ -316,27 +317,27 @@ public class MinMaxAlgorithm {
 
 		/**Iterates through all the valid moves given the current state of the board.*/
 		for(int i = 0; i < this.currentState.width;i++){
-			System.out.println("STARTING : "+i);
+			//////System.out.println("STARTING : "+i);
 
 
 
-			System.out.println("BOARD STATE");
+			//////System.out.println("BOARD STATE");
 			for(int f = 0; f < 3;f++){
 				for(int g = 0; g < 3; g++){
-					System.out.print(currentState.board[f][g]+" ");
+					////System.out.print(currentState.board[f][g]+" ");
 				}
-				System.out.println("");
+				//////System.out.println("");
 			}
 
 
 			if(this.currentState.canDropADiscFromTop(i)){
-				System.out.println("IN : "+i);
+				//////System.out.println("IN : "+i);
 				//int finVal = getMaxMove(i);
 				//int finVal = this.minimax(maxDepth, true, -100, 100);
 
 				/**If can make move, find the best move for max.*/
 				int finVal = this.getMaxMove(i,depth);
-				System.out.println("Final Value is: "+finVal);
+				//////System.out.println("Final Value is: "+finVal);
 				if(finVal > bestScore){
 					/**Stores the best move in bestScore*/
 					bestScore = finVal;
@@ -345,12 +346,12 @@ public class MinMaxAlgorithm {
 
 
 			} else {
-				System.out.println("Cant make a move");
+				//////System.out.println("Cant make a move");
 			}
-			System.out.println("FINISHING : "+i);
+			//////System.out.println("FINISHING : "+i);
 
 		}
-		System.out.println(bestMoveNum);
+		//////System.out.println(bestMoveNum);
 		return bestMoveNum;
 	}
 
@@ -392,7 +393,7 @@ public class MinMaxAlgorithm {
 			/**Upon reaching the bottom of the depth, we evaluate the current state
 			 * depending upon the changes to the board.
 			 * */
-			System.out.println("Evaling");
+			//////System.out.println("Evaling");
 			this.eval.setState(this.currentState);
 			return eval.evaluate(this.currentState.N, this.playerNum, this.opponentNum);
 		}
@@ -402,7 +403,7 @@ public class MinMaxAlgorithm {
 		if(isMax){
 			/**Running with max*/
 			for(int i = 0; i < this.currentState.width;i++){
-				System.out.println("STARTING : "+i);
+				//////System.out.println("STARTING : "+i);
 
 				/**Given that a disc can be dropped from a column.*/
 				if(this.currentState.canDropADiscFromTop(i)){
@@ -410,24 +411,24 @@ public class MinMaxAlgorithm {
 					this.currentState.dropADiscFromTop(i, this.opponentNum);
 					/**Recurse to the next layer of minmax, min.*/
 					int tempScore = minimax(depth - 1,false,alpha,beta);
-					System.out.println("Max");
+					//////System.out.println("Max");
 					for(int f = 0; f < 6;f++){
 						for(int g = 0; g < 7; g++){
-							System.out.print(currentState.board[f][g]+" ");
+							////System.out.print(currentState.board[f][g]+" ");
 						}
-						System.out.println("");
+						//////System.out.println("");
 					}
 					/**saves the best column if best move for max.*/
 					if(tempScore > alpha){
 						int bestCol = i;
-						System.out.println("Best Col is: "+bestCol);
+						//////System.out.println("Best Col is: "+bestCol);
 					} else {
-						System.out.println("Skipping:");
+						//////System.out.println("Skipping:");
 					}
 
 					/**Stores the max to alpha.*/
 					alpha = Math.max(alpha, tempScore);
-					System.out.println("Best Score For Max is: "+ alpha);
+					//////System.out.println("Best Score For Max is: "+ alpha);
 
 					/**Undoes the move that modifies the move before recursing back
 					 * up the tree.*/
@@ -435,16 +436,17 @@ public class MinMaxAlgorithm {
 
 					/**if-statement to prune irrelevant moves.*/
 					if(beta<=alpha){
+						pruned++;
 						break;
 					}
 
 
 				} else {
-					System.out.println("CANT DROP");
+					//////System.out.println("CANT DROP");
 				}
 
 
-				System.out.println("FINISHING : "+i);
+				//////System.out.println("FINISHING : "+i);
 
 			}
 			return alpha;
@@ -462,17 +464,17 @@ public class MinMaxAlgorithm {
 					/**Recurses to the next layer of minmax, max
 					 * and storing the best move for min.*/
 					int tempScore = minimax(depth - 1,true,alpha,beta);
-					System.out.println("Min");
+					//////System.out.println("Min");
 					for(int f = 0; f < 6;f++){
 						for(int g = 0; g < 7; g++){
-							System.out.print(currentState.board[f][g]+" ");
+							////System.out.print(currentState.board[f][g]+" ");
 						}
-						System.out.println("");
+						//////System.out.println("");
 					}
 					/**Stores the minimum value to beta.*/
 					beta = Math.min(beta,tempScore);
 
-					System.out.println("Best Score For Min is: "+ beta);
+					//////System.out.println("Best Score For Min is: "+ beta);
 
 					/**Undoes the move that modifies the move before recursing back
 					 * up the tree.*/
@@ -480,6 +482,7 @@ public class MinMaxAlgorithm {
 
 					/**Prunes if beta is greater than or equal to alpha.*/
 					if(beta<=alpha){
+						pruned++;
 						break;
 					}
 
@@ -651,83 +654,83 @@ public class MinMaxAlgorithm {
 			this.autoTimer = new Timer();
 			this.autoTimer.schedule(new TimerTask() {
 				public void run() {
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");		System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
-					System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");		//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
+					//////System.out.println("Time Out!");
 
 
 				}
