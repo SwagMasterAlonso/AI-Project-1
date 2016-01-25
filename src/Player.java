@@ -22,15 +22,26 @@ public class Player {
 	MinMaxAlgorithm algo = null;
 
 
+	/**
+	 * Constructor for a player object that communicates with the referee.
+	 * @param name
+	 */
 	public Player(String name) {
 		this.name = name;
 		this.board = null;
 	}
 
+	/**
+	 * Sends the name to standard output.
+	 */
 	void sendName() {
 		System.out.println(this.name);
 	}
 
+	/**
+	 * Process input from the referee.
+	 * @throws IOException
+	 */
 	void readInput() throws IOException {
 
 		//PrintWriter read = new PrintWriter("boobs.txt");
@@ -44,25 +55,26 @@ public class Player {
 
 		//read.println(ls.size());
 
-		if(ls.size()==2){
+		if(ls.size()==2){/**Reads the move of the opponent.*/
 			//System.out.println(ls.get(0)+" "+ls.get(1));
 			Move move = new Move(Integer.parseInt(ls.get(0)),Integer.parseInt(ls.get(1)));
 
 			this.algo.readMove(move);
 
+			/**Gets the next move to make.*/
 			this.algo.getNextMove();
 
 
-			//create game tree
-			//run eval function on entire tree
-			//run minimax on tree
-			//return the next move
-
+			/**
+			 * create game tree
+			 * run eval function on entire tree
+			 * run minimax on tree
+			return the next move*/
 
 			this.algo.writeMove();
 		}
 		else if(ls.size()==1){
-
+			/**Reads in that the referree says game over.*/
 			System.out.println("game over!!!");
 			System.exit(0);
 
@@ -82,7 +94,7 @@ public class Player {
 		}
 		else if(ls.size()==5){
 			//System.out.println("0 1");  //first move
-
+			/**Reads in the game information for board creation and algorithm  initialization.*/
 			this.boardHeight = Integer.parseInt(ls.get(0));
 			this.boardWidth = Integer.parseInt(ls.get(1));
 			this.nPieces  = Integer.parseInt(ls.get(2));
@@ -90,7 +102,7 @@ public class Player {
 			this.timeLimit = Integer.parseInt(ls.get(4));
 			this.board = new Board(this.boardHeight,this.boardWidth,this.nPieces);
 
-
+			/**Determining on input, either we are player 1 or player 2.*/
 			if(this.isPlayer == 1){
 				algo = new MinMaxAlgorithm(this.board,this.isPlayer,2,this.timeLimit);
 			} else {
@@ -106,6 +118,7 @@ public class Player {
 
 		}
 		else if(ls.size()==4){		//player1: aa player2: bb
+			/***/
 			if (ls.get(1).equals(this.name)){
 				this.isPlayer = 1;
 			} else {
