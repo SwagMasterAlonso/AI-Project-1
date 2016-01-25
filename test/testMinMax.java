@@ -130,7 +130,7 @@ public class testMinMax {
 
 	@Test
 	public void testMinimax2(){
-		Board newState = new Board(3,3,3);
+		Board newState = new Board(6,7,3);
 		MinMaxAlgorithm algo;
 		Move thisMove = new Move(6,1);
 		GameNode node;
@@ -149,6 +149,7 @@ public class testMinMax {
 		newState.dropADiscFromTop(2,2);
 		newState.dropADiscFromTop(2,2);
 
+		newState.dropADiscFromTop(1,1);
 
 		
 		//newState.dropADiscFromTop(1,1);
@@ -164,15 +165,15 @@ public class testMinMax {
 		//node = algo.createGameTree(2, newState, thisMove);
 
 
-		for(int i = 0; i < 3;i++){
-			for(int j = 0; j < 3; j++){
+		for(int i = 0; i < 6;i++){
+			for(int j = 0; j < 7; j++){
 				System.out.print(newState.board[i][j]+" ");
 			}
 			System.out.println("");
 		}
 
 		//algo.minimax(3, false, 100, -100);
-		algo.getMaxMoveColumn();
+		algo.getMaxMoveColumn(5);
 		
 		
 		//assertEquals(algo.eval.countNConnectionsH(6, algo.playerNum, algo.opponentNum),1);

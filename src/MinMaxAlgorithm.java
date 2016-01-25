@@ -41,7 +41,7 @@ public class MinMaxAlgorithm {
 	/**The time limit that the player has to make a move.*/
 	int timeLimit;
 	/**Max depth that the algorithm searches.*/
-	int maxDepth = 3;
+	int maxDepth = 10;
 	/**The best result from the minmax algorithm.*/
 	int colBest;
 	/**The Bestscore for a modified state from minmax recursions.*/
@@ -49,9 +49,7 @@ public class MinMaxAlgorithm {
 	/**The worst score for a modified state from minmax recursions.*/
 	int worstScore=1000;
 	/**The best move to take for a given state of the board.*/
-	int bestMove;
-
-
+	int bestMoveNum;
 	/**
 	 * Constructor for the class that creates a MinMaxAlgorithm object that can run
 	 * the algorithm, search for the best move, and send the best move to the player.
@@ -71,82 +69,30 @@ public class MinMaxAlgorithm {
 
 
 	void getNextMove () {
-		ArrayList <Integer> validMoves = new ArrayList<Integer>();
-		Move bestMove = null;
-		int tempScore = -10000;
-		GameNode tree = null;
-		Move move = null;
-		int i;
+		
 
-
-
-
-
+		int bestDepthScore = -1000;
+		
+		for(int i = 0; i < maxDepth;i++){
+			int score = this.getMaxMoveColumn(i);
+			
+			if(bestScore > bestDepthScore){
+				bestDepthScore = bestScore;
+				bestMoveNum = score;
+				Move bestMove = new Move(bestMoveNum,1);
+				this.friendlyMove = bestMove;
+			}
+		
+		}
+	
+		
+		
+		
+		
+		
+		
 	}
-	//	Random rand = new Random();
-	//code for finding the next move
-	//This is a random number generator that creates random moves
-	//		int randomNum = rand.nextInt((6-1)+1) + 1;
-	//		this.debugger.writeToDebug("col is: "+randomNum);
-	//		this.friendlyMove = new Move(randomNum, 1);
-	//	validMoves = findMoves(this.currentState);
-	//Collections.reverse(validMoves);
-
-	//	countDown(this.timeLimit-3);
-
-	//	for(i = 0; i < validMoves.size();i++){
-
-
-	/////System.out.println("");
-	/////System.out.println("");
-	/////System.out.println("Exploring validMoves at: " + i);
-	//	/////System.out.println(tempScore);
-	//	/////System.out.println(score);
-	/////System.out.println("");
-	/////System.out.println("");
-
-	//			if (validMoves.get(i) > this.currentState.width) {
-	//				move = new Move((validMoves.get(i)-10) , 0);
-	//			} else  {
-	//				move = new Move(validMoves.get(i), 1);
-	//			}
-
-
-
-	//			tree = createGameTree(3,this.currentState,move);
-	//			tempScore = this.minimax(tree, 3, true, -10000, 10000);
-	//			//	score= Math.max(score, tempScore);
-	//
-	//			if(tempScore > score){
-	//				///////System.out.println("Best Move is: "+bestMove);
-	//				/////System.out.println("Best Depth is: "+tempDepth);
-	//				bestMove = move;
-	//				//				/////System.out.println("");
-	//				//				/////System.out.println(tempScore);
-	//				//				/////System.out.println(score);
-	//				//				/////System.out.println("Best Move is: "+bestMove);
-	//				currDepth = tempDepth;
-	//				score = tempScore;
-	//				//				/////System.out.println("Best score is: "+score);
-	//				//				/////System.out.println("");
-	//				//	/////System.out.println("Col is " +bestMove.colNum);
-	//			} else {
-	//				/////System.out.println("Lower");
-	//				/////System.out.println("Temp Depth didnt work was: " + tempDepth);
-	//				tempDepth = -1;
-	//				currDepth = 0;
-	//
-	//
-	//			}
-	//			currDepth = 0;
-	//
-	//			tempDepth = -1;
-
-	//	}
-	//		this.autoTimer.cancel();
-	//		this.friendlyMove = bestMove;
-	//	}
-
+	
 	/**
 	 * Method that takes in the opponents move and modifies the internal
 	 * board state for the algorithm to keep track of.
@@ -359,7 +305,7 @@ public class MinMaxAlgorithm {
 	 * Parent method that calls helper to run minmax method to find the best available move.
 	 * @return, The column of the best valid move to place a disk.
 	 */
-	int getMaxMoveColumn(){
+	int getMaxMoveColumn(int depth){
 
 		Board caliState = new Board(this.currentState.height,this.currentState.width, this.currentState.N);
 		int[][] tempBoard = this.copyBoard(this.currentState.getBoard());
@@ -387,12 +333,12 @@ public class MinMaxAlgorithm {
 				//int finVal = this.minimax(maxDepth, true, -100, 100);
 
 				/**If can make move, find the best move for max.*/
-				int finVal = this.getMaxMove(i);
+				int finVal = this.getMaxMove(i,depth);
 				System.out.println("Final Value is: "+finVal);
 				if(finVal > bestScore){
 					/**Stores the best move in bestScore*/
 					bestScore = finVal;
-					bestMove = i;
+					bestMoveNum = i;
 				}
 
 
@@ -402,8 +348,8 @@ public class MinMaxAlgorithm {
 			System.out.println("FINISHING : "+i);
 
 		}
-		System.out.println(bestMove);
-		return bestMove;
+		System.out.println(bestMoveNum);
+		return bestMoveNum;
 	}
 
 
@@ -413,11 +359,11 @@ public class MinMaxAlgorithm {
 	 * @param col, The valid column to put a disk.
 	 * @return, The best value that min produces.
 	 */
-	int getMaxMove(int col){
+	int getMaxMove(int col,int depth){
 
 		this.currentState.dropADiscFromTop(col, this.opponentNum);
 
-		int tempScore = minimax(maxDepth,false,-10000,10000);
+		int tempScore = minimax(depth,false,-10000,10000);
 
 		this.currentState.removeMove(col);
 
@@ -463,8 +409,8 @@ public class MinMaxAlgorithm {
 					/**Recurse to the next layer of minmax, min.*/
 					int tempScore = minimax(depth - 1,false,alpha,beta);
 					System.out.println("Max");
-					for(int f = 0; f < 3;f++){
-						for(int g = 0; g < 3; g++){
+					for(int f = 0; f < 6;f++){
+						for(int g = 0; g < 7; g++){
 							System.out.print(currentState.board[f][g]+" ");
 						}
 						System.out.println("");
@@ -515,8 +461,8 @@ public class MinMaxAlgorithm {
 					 * and storing the best move for min.*/
 					int tempScore = minimax(depth - 1,true,alpha,beta);
 					System.out.println("Min");
-					for(int f = 0; f < 3;f++){
-						for(int g = 0; g < 3; g++){
+					for(int f = 0; f < 6;f++){
+						for(int g = 0; g < 7; g++){
 							System.out.print(currentState.board[f][g]+" ");
 						}
 						System.out.println("");
@@ -691,7 +637,10 @@ public class MinMaxAlgorithm {
 		return newColumns;
 
 	}
-
+/**
+ * Method counts down the time. Used for determining when to make the move according to the referee
+ * @param seconds, the time to count down for
+ */
 	private void countDown(int seconds){
 		if (seconds > 0) {
 			if (this.autoTimer != null) {
@@ -700,7 +649,83 @@ public class MinMaxAlgorithm {
 			this.autoTimer = new Timer();
 			this.autoTimer.schedule(new TimerTask() {
 				public void run() {
-					/////System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");		System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
+					System.out.println("Time Out!");
 
 
 				}

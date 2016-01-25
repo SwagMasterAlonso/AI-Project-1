@@ -66,7 +66,7 @@ public class Heuristic {
 //		System.out.println("");
 
 
-		finalValue = 240*connectN - 60*oppConnectN + 100*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN -
+		finalValue = 240*connectN - 10*oppConnectN + 100*nMinus1 + 10*nMinus2 - 20*oppNMinus1 - 10*oppNMinus2 + ((nMinus2 - longestN) * 2)*longestN -
 				((oppNMinus2 - oppLongestN) * 2)*oppLongestN + 5*emptySpaces + 5*vertConn + 16*horizConn + 18*diagConn;
 
 
