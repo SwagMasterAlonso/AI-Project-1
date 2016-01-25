@@ -1,0 +1,8 @@
+In order to run our jar, the input is the following:
+	java -jar Referee.jar "java -jar ./amartinez_yychow_proj1.jar" "java -jar ./testPlayer.jar" 6 7 3 10 10
+	where one of the ./amartinez_yychow_proj1.jar is in the current working directory with the other player's
+	.jar file and the referee.java file.
+
+In order to run our program on Eclipse:
+	There is a main.java within the /src folder of the AI-Project-1 Project folder.
+	Simply run on that main file.
